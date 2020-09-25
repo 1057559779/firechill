@@ -1,4 +1,4 @@
-package com.qiu.firechill.main;
+package com.qiu.firechill.devtest.main;
 
 import java.sql.*;
 

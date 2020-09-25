@@ -1,17 +1,14 @@
-package com.qiu.firechill.main;
+package com.qiu.firechill.devtest.main;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-import com.sun.org.apache.xml.internal.security.Init;
+import com.qiu.firechill.session.impl.CommonDBConnectFactory;
 
 import javax.sql.DataSource;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * @Author qiu
@@ -27,10 +24,11 @@ public class HasDBCMain {
         map.put("initialSize","5");
         map.put("maxActive","10");
         map.put("maxWait","3000");
+        map.put("driverClassName","com.mysql.jdbc.Driver");
         DataSource ds = DruidDataSourceFactory.createDataSource(map);
-        Connection conn = ds.getConnection();
+        Connection connect = ds.getConnection();
         //3.操作数据库，实现增删改查
-        Statement stmt = conn.createStatement();
+        Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT id, uname FROM qiu_user");
         //如果有数据，rs.next()返回true
         while(rs.next()){
@@ -38,6 +36,6 @@ public class HasDBCMain {
         }
         rs.close();
         stmt.close();
-        conn.close();
+        connect.close();
     }
 }

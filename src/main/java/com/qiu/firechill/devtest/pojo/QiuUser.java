@@ -1,4 +1,4 @@
-package com.qiu.firechill.pojo;
+package com.qiu.firechill.devtest.pojo;
 
 import com.qiu.firechill.ann.ColumnName;
 import com.qiu.firechill.ann.TableName;
@@ -10,7 +10,7 @@ import com.qiu.firechill.ann.TableName;
  */
 
 @TableName("qiu_user")
-public class User {
+public class QiuUser {
 
     @ColumnName("id")
     private Integer id;
