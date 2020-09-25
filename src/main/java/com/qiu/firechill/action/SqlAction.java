@@ -1,6 +1,8 @@
 package com.qiu.firechill.action;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @Author VULCAN
@@ -10,5 +12,5 @@ public interface SqlAction<T> {
 
     T selectById() throws SQLException;
 
-    T selectAll() throws SQLException;
+    List<T> selectAll() throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException;
 }

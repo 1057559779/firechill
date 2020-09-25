@@ -16,9 +16,9 @@ import java.util.Map;
  */
 public class CommonDBConnectFactory implements DBConnectFactory {
 
-    public SqlAction getAction(DataSource dataSource) throws SQLException {
+    public SqlAction getAction(DataSource dataSource,Class<?> clazz) throws SQLException {
         Connection connect = dataSource.getConnection();
 
-        return new SqlActionImpl(connect);
+        return new SqlActionImpl(connect,clazz);
     }
 }

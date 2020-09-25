@@ -2,13 +2,11 @@ package com.qiu.firechill.devtest.main;
 
 import com.qiu.firechill.action.SqlAction;
 import com.qiu.firechill.devtest.config.MyDataSourceConfig;
-import com.qiu.firechill.session.DataSourceInfoConfig;
+import com.qiu.firechill.devtest.pojo.QiuUser;
 import com.qiu.firechill.session.impl.CommonDBConnectFactory;
-
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.util.List;
+
 
 /**
  * @Author VULCAN
@@ -20,8 +18,10 @@ public class AfterDBCMain {
         //得到配置信息
         DataSource dataSource = new MyDataSourceConfig().config();
 
-        SqlAction action = new CommonDBConnectFactory().getAction(dataSource);
+        SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(dataSource,QiuUser.class);
 
-        action.selectAll();
+        List<QiuUser> list = action.selectAll();
+
+        System.out.println(list);
     }
 }

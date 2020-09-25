@@ -14,6 +14,6 @@ import java.util.Map;
  */
 public interface DBConnectFactory {
 
-    SqlAction getAction(DataSource dataSource) throws SQLException;
+    SqlAction getAction(DataSource dataSource,Class<?> clazz) throws SQLException;
 
 }
