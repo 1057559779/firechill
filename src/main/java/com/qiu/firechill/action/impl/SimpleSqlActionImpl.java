@@ -2,8 +2,13 @@ package com.qiu.firechill.action.impl;
 
 import com.qiu.firechill.action.SqlAction;
 import com.qiu.firechill.ann.ColumnName;
+import com.qiu.firechill.ann.Select;
+import com.qiu.firechill.ann.SqlMapper;
 import com.qiu.firechill.ann.TableName;
-import com.qiu.firechill.devtest.pojo.QiuUser;
+import javassist.CannotCompileException;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.NotFoundException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -17,15 +22,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author VULCAN
+ * @Author qiu
  * @create 2020/9/25 16:12
+ * @Des 简单的sql操作类
  */
-public class SqlActionImpl<T> implements SqlAction {
+public class SimpleSqlActionImpl<T> implements SqlAction {
 
     private Connection connect;
     private Class<?> clazz;
 
-    public SqlActionImpl(Connection connect,Class<?> clazz) {
+    public SimpleSqlActionImpl(Connection connect, Class<?> clazz) {
         this.connect=connect;
         this.clazz=clazz;
     }
@@ -85,5 +91,16 @@ public class SqlActionImpl<T> implements SqlAction {
             list.add(o);
         }
         return list;
+    }
+
+    @Override
+    public Object getInterFace(Class clazz) throws NotFoundException, CannotCompileException {
+        ClassPool pool = ClassPool.getDefault();
+        //定义类
+        CtClass de = pool.makeClass("com.qiu.firechill.action");
+        //设置父类
+        de.setSuperclass(pool.get(clazz.getName()));
+
+        return null;
     }
 }

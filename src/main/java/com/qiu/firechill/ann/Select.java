@@ -6,13 +6,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Author qiu
- * @create 2020/9/25 11:46
- * @Des 表名
+ * @Author VULCAN
+ * @create 2020/9/26 12:29
  */
 
-@Target(value = {ElementType.TYPE})
+@Target(value = {ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TableName {
-    String value();
+public @interface Select {
+    //sql
+    String sql();
+    //返回类型
+    Class<?> result();
 }

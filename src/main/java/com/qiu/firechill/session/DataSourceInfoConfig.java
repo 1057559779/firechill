@@ -9,5 +9,5 @@ import javax.sql.DataSource;
  */
 public interface DataSourceInfoConfig {
 
-    DataSource config() throws Exception;
+    ConnectBean config() throws Exception;
 }

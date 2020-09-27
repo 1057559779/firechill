@@ -3,9 +3,8 @@ package com.qiu.firechill.session;
 import com.qiu.firechill.action.SqlAction;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
+
 
 /**
  * @Author qiu
@@ -14,6 +13,6 @@ import java.util.Map;
  */
 public interface DBConnectFactory {
 
-    SqlAction getAction(DataSource dataSource,Class<?> clazz) throws SQLException;
+    SqlAction getAction(ConnectBean connectBean,Class<?> clazz) throws SQLException;
 
 }
