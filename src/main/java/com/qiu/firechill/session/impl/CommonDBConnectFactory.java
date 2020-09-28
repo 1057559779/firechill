@@ -27,7 +27,20 @@ public class CommonDBConnectFactory implements DBConnectFactory {
     }
 
     @Override
-    public Object doSelectSql(String sql,Class clazz){
+    public Object doSelectSql(String sql,Class clazz) throws Exception {
+        ConnectBean config = new MyDataSourceConfig().config();
+        DataSource dataSource = config.getDataSource();
+        Connection conn = dataSource.getConnection();
+        //3.操作数据库，实现增删改查
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        //如果有数据，rs.next()返回true
+        while(rs.next()){
+            System.out.println("用户名："+rs.getString("uname")+" id："+rs.getInt("id"));
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
         return null;
     }
 }

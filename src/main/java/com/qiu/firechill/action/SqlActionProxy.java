@@ -1,5 +1,8 @@
 package com.qiu.firechill.action;
 
+import com.qiu.firechill.ann.Select;
+import com.qiu.firechill.session.impl.CommonDBConnectFactory;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -20,15 +23,22 @@ public class SqlActionProxy<T> implements InvocationHandler {
 
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) {
-        System.out.println("代理成功");
+    public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
+        //代理成功
         Annotation[] allann = method.getDeclaredAnnotations();
         for (Annotation annotation:allann) {
             String name = annotation.annotationType().getSimpleName();
             switch (name){
                 case "Select":
-                    System.out.println("select");
-
+                    Class<?> returnType = method.getReturnType();
+                    String simpleName = returnType.getSimpleName();
+                    System.out.println(simpleName);
+                    //得到注解
+                    Select select = (Select)annotation;
+                    String sql =select.sql();
+                    Class<?> result = select.result();
+                    //调用查询方法
+                    Object o = new CommonDBConnectFactory().doSelectSql(sql, result);
                     break;
                 case "Update":
                     System.out.println("update");
@@ -50,3 +60,9 @@ public class SqlActionProxy<T> implements InvocationHandler {
     }
 
 }
+/**
+ *        //自定义mapper
+ *         TestMapper interFace = action.getInterFace(TestMapper.class);
+ *
+ *         List<QiuUser> all = interFace.findAll();
+ */

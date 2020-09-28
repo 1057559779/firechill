@@ -15,6 +15,6 @@ public interface DBConnectFactory {
 
     SqlAction getAction(Class<?> clazz) throws Exception;
 
-    <T> T doSelectSql(String sql,Class<T> tClass);
+    <T> T doSelectSql(String sql,Class<T> tClass) throws Exception;
 
 }
