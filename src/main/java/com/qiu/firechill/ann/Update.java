@@ -12,9 +12,7 @@ import java.lang.annotation.Target;
 
 @Target(value = {ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SqlWrite {
+public @interface Update {
     //sql
     String sql();
-    //返回类型
-    Class<?> result();
 }

@@ -15,11 +15,16 @@ import java.sql.*;
  */
 public class CommonDBConnectFactory implements DBConnectFactory {
 
-
+    @Override
     public SqlAction getAction(ConnectBean connectBean, Class<?> clazz) throws SQLException {
         DataSource dataSource = connectBean.getDataSource();
         Connection connect = dataSource.getConnection();
 
         return new SimpleSqlActionImpl(connect,clazz);
+    }
+
+
+    public void doSelectSql(String sql){
+
     }
 }

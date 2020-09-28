@@ -1,12 +1,14 @@
 package com.qiu.firechill.action;
 
-import com.qiu.firechill.devtest.pojo.QiuUser;
+import com.qiu.firechill.ann.Delete;
+import com.qiu.firechill.ann.Insert;
+import com.qiu.firechill.ann.Select;
+import com.qiu.firechill.ann.Update;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author qiu
@@ -25,6 +27,24 @@ public class SqlActionProxy<T> implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
         System.out.println("代理成功");
+        Annotation[] allann = method.getDeclaredAnnotations();
+        for (Annotation annotation:allann) {
+            String name = annotation.annotationType().getSimpleName();
+            switch (name){
+                case "Select":
+                    System.out.println("select");
+                    break;
+                case "Update":
+                    System.out.println("update");
+                    break;
+                case "Delete":
+                    System.out.println("delete");
+                    break;
+                case "Insert":
+                    System.out.println("insert");
+                    break;
+            }
+        }
 
         return null;
     }
