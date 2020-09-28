@@ -22,8 +22,14 @@ public class AfterDBCMain {
 
         SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(config,QiuUser.class);
 
-        List<QiuUser> list = action.selectAll();
+        //自定义mapper
+        TestMapper interFace = action.getInterFace(TestMapper.class);
 
-        System.out.println(list);
+        List<QiuUser> all = interFace.findAll();
+
+        //使用自带的方法
+//        List<QiuUser> list = action.selectAll();
+//
+//        System.out.println(list);
     }
 }

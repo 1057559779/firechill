@@ -1,16 +1,12 @@
 package com.qiu.firechill.action.impl;
 
 import com.qiu.firechill.action.SqlAction;
+import com.qiu.firechill.action.SqlActionProxy;
 import com.qiu.firechill.ann.ColumnName;
-import com.qiu.firechill.ann.Select;
 import com.qiu.firechill.ann.SqlMapper;
 import com.qiu.firechill.ann.TableName;
-import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.NotFoundException;
+import com.qiu.firechill.devtest.mapper.TestMapper;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -94,13 +90,9 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
     }
 
     @Override
-    public Object getInterFace(Class clazz) throws NotFoundException, CannotCompileException {
-        ClassPool pool = ClassPool.getDefault();
-        //定义类
-        CtClass de = pool.makeClass("com.qiu.firechill.action");
-        //设置父类
-        de.setSuperclass(pool.get(clazz.getName()));
-
-        return null;
+    public Object getInterFace(Class clazz){
+        SqlActionProxy sqlActionProxy = new SqlActionProxy(clazz);
+        Object proxy = sqlActionProxy.getProxy();
+        return proxy;
     }
 }
