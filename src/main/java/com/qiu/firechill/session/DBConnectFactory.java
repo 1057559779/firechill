@@ -13,6 +13,8 @@ import java.sql.SQLException;
  */
 public interface DBConnectFactory {
 
-    SqlAction getAction(ConnectBean connectBean,Class<?> clazz) throws SQLException;
+    SqlAction getAction(Class<?> clazz) throws Exception;
+
+    <T> T doSelectSql(String sql,Class<T> tClass);
 
 }

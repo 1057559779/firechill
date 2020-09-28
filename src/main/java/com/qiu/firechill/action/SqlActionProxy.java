@@ -1,10 +1,5 @@
 package com.qiu.firechill.action;
 
-import com.qiu.firechill.ann.Delete;
-import com.qiu.firechill.ann.Insert;
-import com.qiu.firechill.ann.Select;
-import com.qiu.firechill.ann.Update;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -33,6 +28,7 @@ public class SqlActionProxy<T> implements InvocationHandler {
             switch (name){
                 case "Select":
                     System.out.println("select");
+
                     break;
                 case "Update":
                     System.out.println("update");

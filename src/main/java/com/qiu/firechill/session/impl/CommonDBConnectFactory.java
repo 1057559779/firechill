@@ -2,6 +2,7 @@ package com.qiu.firechill.session.impl;
 
 import com.qiu.firechill.action.SqlAction;
 import com.qiu.firechill.action.impl.SimpleSqlActionImpl;
+import com.qiu.firechill.devtest.config.MyDataSourceConfig;
 import com.qiu.firechill.session.ConnectBean;
 import com.qiu.firechill.session.DBConnectFactory;
 
@@ -16,15 +17,17 @@ import java.sql.*;
 public class CommonDBConnectFactory implements DBConnectFactory {
 
     @Override
-    public SqlAction getAction(ConnectBean connectBean, Class<?> clazz) throws SQLException {
-        DataSource dataSource = connectBean.getDataSource();
+    public SqlAction getAction(Class<?> clazz) throws Exception {
+        //得到配置信息
+        ConnectBean config = new MyDataSourceConfig().config();
+        DataSource dataSource = config.getDataSource();
         Connection connect = dataSource.getConnection();
 
         return new SimpleSqlActionImpl(connect,clazz);
     }
 
-
-    public void doSelectSql(String sql){
-
+    @Override
+    public Object doSelectSql(String sql,Class clazz){
+        return null;
     }
 }
