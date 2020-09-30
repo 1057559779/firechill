@@ -14,12 +14,13 @@ public interface SqlAction<T> {
     T selectById(Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
     //通过某个字段查询
-    T selectBySome(String col,Object val) throws SQLException;
+    T selectByCol(String col,Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+
+    //通过某个字段查询   有第三个参数则走list
+    List<T> selectBySome(String col,Object val,Boolean isList) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
     //查询所有
     List<T> selectAll() throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException;
-
-
 
     //动态代理，自定义接口
     <E> E getInterFace(Class<E> clazz);

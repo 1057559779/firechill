@@ -24,12 +24,7 @@
             <artifactId>druid</artifactId>
             <version>1.1.21</version>
         </dependency>
-<!--        动态创建类-->
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.25.0-GA</version>
-        </dependency>
+
     </dependencies>
 
 </project>

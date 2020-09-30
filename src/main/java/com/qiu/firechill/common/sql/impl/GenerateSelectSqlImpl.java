@@ -99,8 +99,12 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         sql.append(" from");
         TableName tann = clazz.getAnnotation(TableName.class);
         String value = tann.value();
-        sql.append(" "+value+" where "+col+"="+val);
-
+        if(val instanceof  String){
+            String v="'"+val+"'";
+            sql.append(" "+value+" where "+col+"="+v);
+        }else {
+            sql.append(" "+value+" where "+col+"="+val);
+        }
         return sql;
     }
 
