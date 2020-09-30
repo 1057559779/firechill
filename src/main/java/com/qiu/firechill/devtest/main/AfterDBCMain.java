@@ -17,7 +17,7 @@ public class AfterDBCMain {
 
         SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(QiuUser.class);
         //使用自带的方法
-        QiuUser qiuUser = action.selectByCol("uname","firechildren");
+        QiuUser qiuUser = action.selectOneByCol("uname","firechildren");
         System.out.println(qiuUser);
 
     }

@@ -54,7 +54,7 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
     }
 
     @Override
-    public Object selectByCol(String col, Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Object selectOneByCol(String col, Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         //属性
         fields=clazz.getDeclaredFields();
         //方法名String
@@ -74,7 +74,7 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
     }
 
     @Override
-    public List selectByCol(String col, Object val, Boolean isList) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public List selectListByCol(String col, Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         //属性
         fields=clazz.getDeclaredFields();
@@ -90,14 +90,8 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
         StringBuilder sql = generate.getSql(col);
         //得到返回值
         List<T> list = generate.getRetrun(connect, sql,val);
-        if(isList == true){
-            return list;
-        }else {
-            //返回list格式的单条数据
-            List<T> sigleList = list.subList(0, 1);
-            return sigleList;
-        }
 
+        return list;
     }
 
     public List<T> selectAll() throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
