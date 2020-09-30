@@ -26,27 +26,26 @@ public class SqlActionProxy<T> implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
 
-        //代理成功
+        //获得参数上的注解
+        Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+        //参数注解里的值的数组
+        String[] params = new String[parameterAnnotations.length];
+        //获取参数注解中的值
+        for (int i = 0; i <parameterAnnotations.length; i++) {
+            String param="";
+            for (int j = 0; j <parameterAnnotations[i].length ; j++) {
+                SqlParam  sqlParam =  ((SqlParam)parameterAnnotations[i][j]);
+                param= sqlParam.index();
+            }
+            params[i]=param;
+        }
+        Object o=null;
+        //获得方法上头的所有注解
         Annotation[] allann = method.getDeclaredAnnotations();
         for (Annotation annotation:allann) {
             String name = annotation.annotationType().getSimpleName();
             switch (name){
                 case "Select":
-                    //获得参数类型
-                    Class<?>[] parameterTypes = method.getParameterTypes();
-                    //获得参数上的注解
-                    Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-                    //参数注解里的值的数组
-                    String[] params = new String[parameterAnnotations.length];
-                    //获取参数注解中的值
-                    for (int i = 0; i <parameterAnnotations.length; i++) {
-                        String param="";
-                        for (int j = 0; j <parameterAnnotations[i].length ; j++) {
-                            SqlParam  sqlParam =  ((SqlParam)parameterAnnotations[i][j]);
-                            param= sqlParam.index();
-                        }
-                        params[i]=param;
-                    }
 
                     //返回类型
                     Class<?> returnType = method.getReturnType();
@@ -59,7 +58,7 @@ public class SqlActionProxy<T> implements InvocationHandler {
                     //返回类型
                     Class<?> result = select.result();
                     //调用查询方法
-                    Object o = new CommonDBConnectFactory().doSelectSql(sql,result,islist);
+                    o = new CommonDBConnectFactory().doSelectSql(sql,result,islist, params,args);
                     break;
                 case "Update":
                     System.out.println("update");
@@ -72,8 +71,8 @@ public class SqlActionProxy<T> implements InvocationHandler {
                     break;
             }
         }
+        return o;
 
-        return null;
     }
 
     public T getProxy(){

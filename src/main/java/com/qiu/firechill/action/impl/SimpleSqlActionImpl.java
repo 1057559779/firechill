@@ -34,7 +34,7 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
         this.clazz=clazz;
     }
 
-    public T selectById(Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public T selectById(Object val) throws Exception {
         //属性
         fields=clazz.getDeclaredFields();
         //方法名String
@@ -54,7 +54,7 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
     }
 
     @Override
-    public Object selectOneByCol(String col, Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Object selectOneByCol(String col, Object val) throws Exception {
         //属性
         fields=clazz.getDeclaredFields();
         //方法名String
@@ -74,7 +74,7 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
     }
 
     @Override
-    public List selectListByCol(String col, Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public List selectListByCol(String col, Object val) throws Exception {
 
         //属性
         fields=clazz.getDeclaredFields();
@@ -94,7 +94,7 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
         return list;
     }
 
-    public List<T> selectAll() throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public List<T> selectAll() throws Exception {
         //属性
         fields=clazz.getDeclaredFields();
         //方法名String

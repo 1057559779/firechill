@@ -11,16 +11,16 @@ import java.util.List;
 public interface SqlAction<T> {
 
     //通过id查询  数据库字段的主键可能是int也可能是varchar
-    T selectById(Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+    T selectById(Object val) throws Exception;
 
     //通过某个字段查询
-    T selectOneByCol(String col,Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+    T selectOneByCol(String col,Object val) throws Exception;
 
     //通过某个字段查询   有第三个参数则走list
-    List<T> selectListByCol(String col,Object val) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+    List<T> selectListByCol(String col,Object val) throws Exception;
 
     //查询所有
-    List<T> selectAll() throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException;
+    List<T> selectAll() throws Exception;
 
     //动态代理，自定义接口
     <E> E getInterFace(Class<E> clazz);

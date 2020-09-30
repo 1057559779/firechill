@@ -100,9 +100,8 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         return sql;
     }
 
-
-    //生成返回值 调用方可以判断是否需要get[0]
-    public List<T> getRetrun(Connection connect,StringBuilder sql) throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    //生成返回值 无参数 调用方可以判断是否需要get[0]
+    public List<T> getRetrun(Connection connect,StringBuilder sql) throws Exception {
 
         Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery(sql.toString());
@@ -126,8 +125,8 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         return list;
     }
 
-    //生成返回值 调用方可以判断是否需要get[0]
-    public List<T> getRetrun(Connection connect,StringBuilder sql,Object param) throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    //生成返回值 单参数的 调用方可以判断是否需要get[0]
+    public List<T> getRetrun(Connection connect,StringBuilder sql,Object param) throws Exception {
 
         PreparedStatement pstmt = connect.prepareStatement(sql.toString());
         if(param instanceof  String){
@@ -155,4 +154,53 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         }
         return list;
     }
+
+    //生成放回置，多参数的
+    public List<T> getRetrun(Connection connect,StringBuilder sql,String[] params,Object[] args) throws Exception {
+
+        PreparedStatement pstmt = connect.prepareStatement(sql.toString());
+
+        for (int i = 0; i < params.length; i++) {
+            Integer index = Integer.parseInt(params[i]);
+            if(args[i] instanceof  String){
+                pstmt.setString(index, (String)args[i]);
+            }else if(args[i] instanceof  Integer){
+                pstmt.setInt(index, (Integer) args[i]);
+            }
+        }
+
+        for (int i = 0; i < fields.length; i++) {
+
+                //获得属性名String
+                String name = fields[i].getName();
+                names[i]=name;
+                //首字母大写化(方法化)
+                String upname ="set"+name.substring(0,1).toUpperCase()+name.substring(1);
+                methodname[i]=upname;
+                Class<?> type = fields[i].getType();
+                classes[i]=type;
+        }
+
+        ResultSet rs = pstmt.executeQuery();
+        List<T> list = new ArrayList<>();
+        while (rs.next()){
+            T o = (T)clazz.newInstance();
+            for (int i = 0; i <names.length ; i++) {
+                Method method = clazz.getMethod(methodname[i], classes[i]);
+                if(rs.getObject(names[i]) instanceof String ){
+                    method.invoke(o,rs.getString(names[i]));
+                }
+                else if(rs.getObject(names[i]) instanceof Integer){
+                    method.invoke(o,rs.getInt(names[i]));
+                }
+                else{
+                    method.invoke(o,rs.getObject(names[i]));
+                }
+            }
+            list.add(o);
+        }
+        return list;
+    }
+
+
 }
