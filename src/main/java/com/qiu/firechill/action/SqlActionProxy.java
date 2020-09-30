@@ -1,6 +1,7 @@
 package com.qiu.firechill.action;
 
 import com.qiu.firechill.ann.Select;
+import com.qiu.firechill.ann.SqlParam;
 import com.qiu.firechill.session.impl.CommonDBConnectFactory;
 
 import java.lang.annotation.Annotation;
@@ -24,19 +25,38 @@ public class SqlActionProxy<T> implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
+
         //代理成功
         Annotation[] allann = method.getDeclaredAnnotations();
         for (Annotation annotation:allann) {
             String name = annotation.annotationType().getSimpleName();
             switch (name){
                 case "Select":
-                    Class<?> returnType = method.getReturnType();
+                    //获得参数类型
+                    Class<?>[] parameterTypes = method.getParameterTypes();
+                    //获得参数上的注解
+                    Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+                    //参数注解里的值的数组
+                    String[] params = new String[parameterAnnotations.length];
+                    //获取参数注解中的值
+                    for (int i = 0; i <parameterAnnotations.length; i++) {
+                        String param="";
+                        for (int j = 0; j <parameterAnnotations[i].length ; j++) {
+                            SqlParam  sqlParam =  ((SqlParam)parameterAnnotations[i][j]);
+                            param= sqlParam.index();
+                        }
+                        params[i]=param;
+                    }
+
                     //返回类型
+                    Class<?> returnType = method.getReturnType();
+                    //返回类型的名字
                     String islist = returnType.getSimpleName();
                     //得到注解
                     Select select = (Select)annotation;
                     //sql语句
                     String sql =select.sql();
+                    //返回类型
                     Class<?> result = select.result();
                     //调用查询方法
                     Object o = new CommonDBConnectFactory().doSelectSql(sql,result,islist);

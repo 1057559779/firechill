@@ -18,6 +18,6 @@ public interface TestMapper {
     @Select(sql = "select * from qiu_user",result = QiuUser.class)
     List<QiuUser> findAll();
 
-    @Select(sql = "selet * from qiu_user where id={mid}",result = QiuUser.class)
-    QiuUser findOne(@SqlParam(param = "mid") Integer id);
+    @Select(sql = "select * from qiu_user where id=1",result = QiuUser.class)
+    QiuUser findOne(@SqlParam(index = "1") Integer id);
 }
