@@ -27,10 +27,14 @@ public class CommonDBConnectFactory implements DBConnectFactory {
     }
 
     @Override
-    public Object doSelectSql(String sql,Class clazz) throws Exception {
-        ConnectBean config = new MyDataSourceConfig().config();
-        DataSource dataSource = config.getDataSource();
-        Connection conn = dataSource.getConnection();
+    public Object doSelectSql(String sql,Class clazz,String islist) throws Exception {
+        if (islist.equals("List")){
+            //这是个list类型的
+        }else {
+            //这是个实体类
+        }
+
+        Connection conn = new MyDataSourceConfig().config().getDataSource().getConnection();
         //3.操作数据库，实现增删改查
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);

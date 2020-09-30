@@ -31,14 +31,15 @@ public class SqlActionProxy<T> implements InvocationHandler {
             switch (name){
                 case "Select":
                     Class<?> returnType = method.getReturnType();
-                    String simpleName = returnType.getSimpleName();
-                    System.out.println(simpleName);
+                    //返回类型
+                    String islist = returnType.getSimpleName();
                     //得到注解
                     Select select = (Select)annotation;
+                    //sql语句
                     String sql =select.sql();
                     Class<?> result = select.result();
                     //调用查询方法
-                    Object o = new CommonDBConnectFactory().doSelectSql(sql, result);
+                    Object o = new CommonDBConnectFactory().doSelectSql(sql,result,islist);
                     break;
                 case "Update":
                     System.out.println("update");

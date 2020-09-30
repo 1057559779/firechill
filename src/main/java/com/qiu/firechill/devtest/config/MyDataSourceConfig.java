@@ -32,7 +32,8 @@ public class MyDataSourceConfig implements DataSourceInfoConfig {
             ConnectBean connectBean = new ConnectBean();
             //装入数据库连接池
             connectBean.setDataSource(ds);
-            //扫描mapper文件
+
+            //扫描mapper文件  没用到忽视它
             connectBean.setMapperScan("com.qiu.firechill.devtest.mapper");
 
             config=connectBean;
