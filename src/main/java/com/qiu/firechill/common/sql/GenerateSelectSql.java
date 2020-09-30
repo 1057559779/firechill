@@ -12,7 +12,9 @@ import java.util.List;
  */
 public interface GenerateSelectSql<T> {
 
-    StringBuilder getNoConfidence();
+    StringBuilder getSql();
+
+    StringBuilder getSql(String col,Object val);
 
     List<T> getRetrun(Connection connect, StringBuilder sql) throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException;
 }

@@ -16,11 +16,9 @@ public class AfterDBCMain {
     public static void main(String[] args) throws Exception {
 
         SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(QiuUser.class);
-//        //使用自带的方法
-        List<QiuUser> list = action.selectAll();
+        //使用自带的方法
+        TestMapper interFace = action.getInterFace(TestMapper.class);
+        List<QiuUser> all = interFace.findAll();
 
-        System.out.println(list);
-//        TestMapper interFace = action.getInterFace(TestMapper.class);
-//        List<QiuUser> all = interFace.findAll();
     }
 }

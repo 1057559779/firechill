@@ -15,9 +15,9 @@ import java.util.List;
 @SqlMapper
 public interface TestMapper {
 
-    @Select(sql = "sql * from qiu_user",result = QiuUser.class)
+    @Select(sql = "select * from qiu_user",result = QiuUser.class)
     List<QiuUser> findAll();
 
-    @Select(sql = "sql * from qiu_user where id={mid}",result = QiuUser.class)
+    @Select(sql = "selet * from qiu_user where id={mid}",result = QiuUser.class)
     QiuUser findOne(@SqlParam(param = "mid") Integer id);
 }

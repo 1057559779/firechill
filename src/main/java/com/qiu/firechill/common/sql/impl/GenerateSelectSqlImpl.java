@@ -44,7 +44,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
     }
 
     //生成无条件的查询sql
-    public  StringBuilder getNoConfidence(){
+    public  StringBuilder getSql(){
 
        StringBuilder sql = new StringBuilder("select ");
        for (int i = 0; i < fields.length; i++) {
@@ -73,7 +73,39 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
 
        return sql;
    }
-   //生成返回值 调用方可以判断是否需要get[0]
+
+    @Override
+    public StringBuilder getSql(String col, Object val) {
+        StringBuilder sql = new StringBuilder("select ");
+        for (int i = 0; i < fields.length; i++) {
+            ColumnName columnName =fields[i].getAnnotation(ColumnName.class);
+            if(columnName != null){
+                //字段名拼接
+                String value = columnName.value();
+                sql.append(value);
+                if(i != fields.length-1){
+                    sql.append(",");
+                }
+                //获得属性名String
+                String name = fields[i].getName();
+                names[i]=name;
+                //首字母大写化(方法化)
+                String upname ="set"+name.substring(0,1).toUpperCase()+name.substring(1);
+                methodname[i]=upname;
+                Class<?> type = fields[i].getType();
+                classes[i]=type;
+            }
+        }
+        sql.append(" from");
+        TableName tann = clazz.getAnnotation(TableName.class);
+        String value = tann.value();
+        sql.append(" "+value+" where "+col+"="+val);
+
+        return sql;
+    }
+
+
+    //生成返回值 调用方可以判断是否需要get[0]
     public List<T> getRetrun(Connection connect,StringBuilder sql) throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
 
         Statement stmt = connect.createStatement();
