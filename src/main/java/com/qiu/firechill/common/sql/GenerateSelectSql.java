@@ -14,7 +14,10 @@ public interface GenerateSelectSql<T> {
 
     StringBuilder getSql();
 
-    StringBuilder getSql(String col,Object val);
+    StringBuilder getSql(String col);
 
     List<T> getRetrun(Connection connect, StringBuilder sql) throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException;
+
+    List<T> getRetrun(Connection connect, StringBuilder sql,Object param) throws SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException;
+
 }

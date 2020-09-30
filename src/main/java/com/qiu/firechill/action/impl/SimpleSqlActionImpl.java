@@ -46,9 +46,9 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
         //生成sql
-        StringBuilder sql = generate.getSql("id",val);
+        StringBuilder sql = generate.getSql("id");
         //得到返回值
-        List<T> list = generate.getRetrun(connect, sql);
+        List<T> list = generate.getRetrun(connect, sql,val);
         T t = list.get(0);
         return t;
     }
@@ -66,15 +66,15 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
         //生成sql
-        StringBuilder sql = generate.getSql(col,val);
+        StringBuilder sql = generate.getSql(col);
         //得到返回值
-        List<T> list = generate.getRetrun(connect, sql);
+        List<T> list = generate.getRetrun(connect, sql,val);
         T t = list.get(0);
         return t;
     }
 
     @Override
-    public List selectBySome(String col, Object val, Boolean isList) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public List selectByCol(String col, Object val, Boolean isList) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         //属性
         fields=clazz.getDeclaredFields();
@@ -87,9 +87,9 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
         //生成sql
-        StringBuilder sql = generate.getSql(col,val);
+        StringBuilder sql = generate.getSql(col);
         //得到返回值
-        List<T> list = generate.getRetrun(connect, sql);
+        List<T> list = generate.getRetrun(connect, sql,val);
         if(isList == true){
             return list;
         }else {
