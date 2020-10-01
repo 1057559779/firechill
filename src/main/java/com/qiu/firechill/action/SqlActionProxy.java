@@ -1,8 +1,11 @@
 package com.qiu.firechill.action;
 
+import com.qiu.firechill.ann.Delete;
 import com.qiu.firechill.ann.Select;
 import com.qiu.firechill.ann.SqlParam;
-import com.qiu.firechill.session.impl.CommonDBConnectFactory;
+import com.qiu.firechill.ann.Update;
+import com.qiu.firechill.common.sql.SqlProxyDo;
+import com.qiu.firechill.common.sql.impl.SqlProxyDoImpl;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -22,6 +25,7 @@ public class SqlActionProxy<T> implements InvocationHandler {
         this.proxyInterface = proxyInterface;
     }
 
+    private static SqlProxyDo sqlProxyDo = new SqlProxyDoImpl();
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
@@ -43,10 +47,10 @@ public class SqlActionProxy<T> implements InvocationHandler {
         //获得方法上头的所有注解
         Annotation[] allann = method.getDeclaredAnnotations();
         for (Annotation annotation:allann) {
+            //h获得注解的名字
             String name = annotation.annotationType().getSimpleName();
             switch (name){
                 case "Select":
-
                     //返回类型
                     Class<?> returnType = method.getReturnType();
                     //返回类型的名字
@@ -54,17 +58,21 @@ public class SqlActionProxy<T> implements InvocationHandler {
                     //得到注解
                     Select select = (Select)annotation;
                     //sql语句
-                    String sql =select.sql();
+                    String selectSql =select.sql();
                     //返回类型
                     Class<?> result = select.result();
                     //调用查询方法
-                    o = new CommonDBConnectFactory().doSelectSql(sql,result,islist, params,args);
+                    o = sqlProxyDo.doSelectSql(selectSql,result,islist, params,args);
                     break;
                 case "Update":
-                    System.out.println("update");
+                    Update update = (Update)annotation;
+                    String updateSql = update.sql();
+                    System.out.println(updateSql);
                     break;
                 case "Delete":
-                    System.out.println("delete");
+                    Delete delete = (Delete)annotation;
+                    String deletesql=delete.sql();
+                    o = sqlProxyDo.doDeleteSql(deletesql, params, args);
                     break;
                 case "Insert":
                     System.out.println("insert");

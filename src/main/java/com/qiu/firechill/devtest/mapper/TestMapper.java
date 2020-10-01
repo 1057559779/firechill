@@ -1,8 +1,6 @@
 package com.qiu.firechill.devtest.mapper;
 
-import com.qiu.firechill.ann.Select;
-import com.qiu.firechill.ann.SqlMapper;
-import com.qiu.firechill.ann.SqlParam;
+import com.qiu.firechill.ann.*;
 import com.qiu.firechill.devtest.pojo.QiuUser;
 
 import java.util.List;
@@ -20,4 +18,7 @@ public interface TestMapper {
 
     @Select(sql = "select * from qiu_user where id=?",result = QiuUser.class)
     QiuUser findOne(@SqlParam(index = "1") Integer id);
+
+    @Delete(sql = "delete from qiu_user where id=?")
+    Integer delById(@SqlParam(index = "1") Integer id);
 }

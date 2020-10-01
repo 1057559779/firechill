@@ -25,4 +25,6 @@ public interface GenerateSelectSql<T> {
 
     List<T> getRetrun(Connection connect,StringBuilder sql,String[] params,Object[] args) throws Exception;
 
+
+
 }

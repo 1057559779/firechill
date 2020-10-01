@@ -5,9 +5,7 @@ import com.qiu.firechill.action.SqlActionProxy;
 import com.qiu.firechill.common.sql.GenerateSelectSql;
 import com.qiu.firechill.common.sql.impl.GenerateSelectSqlImpl;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -22,12 +20,6 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
     private Class<?> clazz;
 
     private Field[] fields ;
-
-    private String[] methodname;
-
-    private String[] names;
-
-    private Class[] classes;
 
     public SimpleSqlActionImpl(Connection connect, Class<?> clazz) {
         this.connect=connect;

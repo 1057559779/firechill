@@ -4,7 +4,6 @@ import com.qiu.firechill.action.SqlAction;
 import com.qiu.firechill.devtest.mapper.TestMapper;
 import com.qiu.firechill.devtest.pojo.QiuUser;
 import com.qiu.firechill.session.impl.CommonDBConnectFactory;
-import java.util.List;
 
 
 /**
@@ -18,8 +17,10 @@ public class AfterDBCMain {
         SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(QiuUser.class);
         //使用自带的方法
         TestMapper interFace = action.getInterFace(TestMapper.class);
-        List<QiuUser> all = interFace.findAll();
-        System.out.println(all);
+
+        QiuUser one = interFace.findOne(1);
+
+        System.out.println(one);
 
     }
 }

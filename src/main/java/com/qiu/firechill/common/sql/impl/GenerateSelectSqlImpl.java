@@ -3,6 +3,7 @@ package com.qiu.firechill.common.sql.impl;
 import com.qiu.firechill.ann.ColumnName;
 import com.qiu.firechill.ann.TableName;
 import com.qiu.firechill.common.sql.GenerateSelectSql;
+import com.qiu.firechill.devtest.config.MyDataSourceConfig;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -200,6 +201,5 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         }
         return list;
     }
-
 
 }
