@@ -159,7 +159,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
     public List<T> getRetrun(Connection connect,StringBuilder sql,String[] params,Object[] args) throws Exception {
 
         PreparedStatement pstmt = connect.prepareStatement(sql.toString());
-
+        //将使用端的实参得到set进sql的?中
         for (int i = 0; i < params.length; i++) {
             Integer index = Integer.parseInt(params[i]);
             if(args[i] instanceof  String){
@@ -168,9 +168,8 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                 pstmt.setInt(index, (Integer) args[i]);
             }
         }
-
+        //将各种反射需要用到的数组都填上
         for (int i = 0; i < fields.length; i++) {
-
                 //获得属性名String
                 String name = fields[i].getName();
                 names[i]=name;
@@ -180,7 +179,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                 Class<?> type = fields[i].getType();
                 classes[i]=type;
         }
-
+        //返回值拼接
         ResultSet rs = pstmt.executeQuery();
         List<T> list = new ArrayList<>();
         while (rs.next()){

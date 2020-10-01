@@ -47,7 +47,6 @@ public class CommonDBConnectFactory implements DBConnectFactory {
         List list = generate.getRetrun(conn, sbsql, params, args);
         if (islist.equals("List")){
             //这是个list类型的
-
             return list;
         }else {
             return list.get(0);
