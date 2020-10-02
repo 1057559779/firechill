@@ -37,7 +37,12 @@ public class SqlProxyDoImpl implements SqlProxyDo {
             //这是个list类型的
             return list;
         }else {
-            return list.get(0);
+            if(!list.isEmpty()){
+                return list.get(0);
+            }else {
+                return null;
+            }
+
         }
     }
 
