@@ -156,7 +156,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         return list;
     }
 
-    //生成放回置，多参数的
+    //生成放回置，多参数的 自定义sql动态代理类专用
     public List<T> getRetrun(Connection connect,StringBuilder sql,String[] params,Object[] args) throws Exception {
 
         PreparedStatement pstmt = connect.prepareStatement(sql.toString());
@@ -171,14 +171,17 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         }
         //将各种反射需要用到的数组都填上
         for (int i = 0; i < fields.length; i++) {
+            ColumnName columnName =fields[i].getAnnotation(ColumnName.class);
+            if(columnName != null) {
                 //获得属性名String
                 String name = fields[i].getName();
-                names[i]=name;
+                names[i] = name;
                 //首字母大写化(方法化)
-                String upname ="set"+name.substring(0,1).toUpperCase()+name.substring(1);
-                methodname[i]=upname;
+                String upname = "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
+                methodname[i] = upname;
                 Class<?> type = fields[i].getType();
-                classes[i]=type;
+                classes[i] = type;
+            }
         }
         //返回值拼接
         ResultSet rs = pstmt.executeQuery();

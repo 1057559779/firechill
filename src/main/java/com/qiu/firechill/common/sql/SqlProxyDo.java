@@ -10,6 +10,7 @@ public interface SqlProxyDo {
     //处理查询 并得到返回值
     <T> T doSelectSql(String sql,Class<T> tClass,String isList,String[] params,Object[] args) throws Exception;
 
-    //处理删除 无需返回
-    Integer doDeleteSql(String sql,String[] params,Object[] args) throws Exception;
+    //处理删除、更新、插入sql 无需返回
+    Integer doChangeSql(String sql,String[] params,Object[] args) throws Exception;
+
 }

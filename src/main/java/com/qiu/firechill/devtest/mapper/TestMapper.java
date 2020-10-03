@@ -21,4 +21,10 @@ public interface TestMapper {
 
     @Delete(sql = "delete from qiu_user where id=?")
     Integer delById(@SqlParam(index = "1") Integer id);
+
+    @Update(sql = "update qiu_user set uname=?  where id=? ")
+    Integer upById(@SqlParam(index = "1") String uname,@SqlParam(index = "2") Integer id);
+
+    @Insert(sql = "insert into qiu_user (uname) values (?)")
+    Integer insert(@SqlParam(index = "1") String uname);
 }

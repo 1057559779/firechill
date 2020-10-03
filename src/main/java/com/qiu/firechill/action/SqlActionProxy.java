@@ -1,9 +1,6 @@
 package com.qiu.firechill.action;
 
-import com.qiu.firechill.ann.Delete;
-import com.qiu.firechill.ann.Select;
-import com.qiu.firechill.ann.SqlParam;
-import com.qiu.firechill.ann.Update;
+import com.qiu.firechill.ann.*;
 import com.qiu.firechill.common.sql.SqlProxyDo;
 import com.qiu.firechill.common.sql.impl.SqlProxyDoImpl;
 
@@ -67,15 +64,17 @@ public class SqlActionProxy<T> implements InvocationHandler {
                 case "Update":
                     Update update = (Update)annotation;
                     String updateSql = update.sql();
-                    System.out.println(updateSql);
+                    o = sqlProxyDo.doChangeSql(updateSql, params, args);
                     break;
                 case "Delete":
                     Delete delete = (Delete)annotation;
                     String deletesql=delete.sql();
-                    o = sqlProxyDo.doDeleteSql(deletesql, params, args);
+                    o = sqlProxyDo.doChangeSql(deletesql, params, args);
                     break;
                 case "Insert":
-                    System.out.println("insert");
+                    Insert insert=(Insert) annotation;
+                    String insertsql = insert.sql();
+                    o = sqlProxyDo.doChangeSql(insertsql, params, args);
                     break;
             }
         }

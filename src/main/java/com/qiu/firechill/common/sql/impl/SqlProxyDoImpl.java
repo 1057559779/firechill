@@ -1,15 +1,11 @@
 package com.qiu.firechill.common.sql.impl;
 
-import com.qiu.firechill.ann.TableName;
 import com.qiu.firechill.common.sql.GenerateSelectSql;
 import com.qiu.firechill.common.sql.SqlProxyDo;
 import com.qiu.firechill.devtest.config.MyDataSourceConfig;
-
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -47,7 +43,7 @@ public class SqlProxyDoImpl implements SqlProxyDo {
     }
 
     @Override
-    public Integer doDeleteSql(String sql, String[] params, Object[] args) throws Exception {
+    public Integer doChangeSql(String sql, String[] params, Object[] args) throws Exception {
         Connection conn = new MyDataSourceConfig().config().getDataSource().getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql);
         //将使用端的实参得到set进sql的?中
