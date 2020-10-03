@@ -18,13 +18,13 @@ public class AfterDBCMain {
     public static void main(String[] args) throws Exception {
 
         SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(QiuUser.class);
-        //使用自带的方法
-        TestMapper interFace = action.getInterFace(TestMapper.class);
+        List<QiuUser> list = action.selectAll();
+        System.out.println(list);
+//        QiuUser qiuUser = new QiuUser();
+//        qiuUser.setId(5);
+//        qiuUser.setUname("smallQiu");
+//        Integer integer = action.insertOne(qiuUser);
 
-        interFace.insert("BigChildren");
 
-        List<QiuUser> all = interFace.findAll();
-
-        System.out.println(all);
     }
 }

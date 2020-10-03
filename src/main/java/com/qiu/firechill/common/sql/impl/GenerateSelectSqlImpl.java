@@ -56,7 +56,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                }
                //获得属性名String
                String name = fields[i].getName();
-               names[i]=name;
+               names[i]=value;
                //首字母大写化(方法化)
                String upname ="set"+name.substring(0,1).toUpperCase()+name.substring(1);
                methodname[i]=upname;
@@ -86,7 +86,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                 }
                 //获得属性名String
                 String name = fields[i].getName();
-                names[i]=name;
+                names[i]=value;
                 //首字母大写化(方法化)
                 String upname ="set"+name.substring(0,1).toUpperCase()+name.substring(1);
                 methodname[i]=upname;
@@ -175,7 +175,8 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
             if(columnName != null) {
                 //获得属性名String
                 String name = fields[i].getName();
-                names[i] = name;
+                String value = columnName.value();
+                names[i] = value;
                 //首字母大写化(方法化)
                 String upname = "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
                 methodname[i] = upname;
