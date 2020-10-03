@@ -5,8 +5,10 @@ import com.qiu.firechill.action.SqlActionProxy;
 import com.qiu.firechill.ann.ColumnName;
 import com.qiu.firechill.ann.TableName;
 import com.qiu.firechill.common.sql.GenerateDeleteSql;
+import com.qiu.firechill.common.sql.GenerateInsertSql;
 import com.qiu.firechill.common.sql.GenerateSelectSql;
 import com.qiu.firechill.common.sql.impl.GenerateDeleteSqlImpl;
+import com.qiu.firechill.common.sql.impl.GenerateInsertSqlImpl;
 import com.qiu.firechill.common.sql.impl.GenerateSelectSqlImpl;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author qiu
@@ -142,42 +145,12 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
 
     @Override
     public Integer insertOne(Object o) throws Exception {
-        Class<?> obclass = o.getClass();
-        TableName table = obclass.getAnnotation(TableName.class);
-        //得到表名
-        String tablename = table.value();
-        //属性数组
-        Field[] obfields = obclass.getDeclaredFields();
-        //占位符
-        StringBuilder paramIndex = new StringBuilder("(");
-        //值s
-        List<Object> vals = new ArrayList<>();
-        //创建初始化的sql
-        StringBuilder sql = new StringBuilder("insert into "+tablename+" (");
-        //将object 里面的值取出来
-        for (int i = 0; i < obfields.length; i++) {
-            ColumnName columnName =obfields[i].getAnnotation(ColumnName.class);
-            if(columnName !=null){
-                //获取字段名
-                String value = columnName.value();
-                String name = obfields[i].getName();
-                sql.append(value+",");
-                paramIndex.append("?,");
-                String mname ="get"+name.substring(0,1).toUpperCase()+name.substring(1);
-                Method method = obclass.getMethod(mname);
-                //得到属性中的值
-                Object val = method.invoke(o);
-                vals.add(val);
-            }
-         }
-        //拼接sql  去掉最后一个半括号
-        StringBuilder newSql = new StringBuilder(sql.substring(0, sql.length() - 1));
-        //占位符们
-        StringBuilder newParamIndex = new StringBuilder(paramIndex.substring(0, paramIndex.length() - 1));
-        newParamIndex.append(")");
-        newSql.append(") values ");
-        newSql.append(newParamIndex);
-        PreparedStatement pstmt = connect.prepareStatement(newSql.toString());
+        GenerateInsertSql generate = new GenerateInsertSqlImpl();
+        Map<String, Object> returnMap = generate.getInsertOneSql(o);
+        //sql 返回的sql    vals 范围的一个对象的属性值
+        String sql = (String)returnMap.get("sql");
+        List<Object> vals = (List<Object>)returnMap.get("vals");
+        PreparedStatement pstmt = connect.prepareStatement(sql);
         //jdbc的sql占位符是从1开始的
         for (int i = 0; i < vals.size(); i++) {
             Object real = vals.get(i);
@@ -185,6 +158,8 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
                 pstmt.setString(i+1, (String)real);
             }else if(real instanceof  Integer){
                 pstmt.setInt(i+1, (Integer) real);
+            }else if(real == null){
+                pstmt.setObject(i+1,null);
             }
         }
         int i = pstmt.executeUpdate();

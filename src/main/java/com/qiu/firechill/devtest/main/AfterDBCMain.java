@@ -21,8 +21,8 @@ public class AfterDBCMain {
         List<QiuUser> list = action.selectAll();
         System.out.println(list);
 //        QiuUser qiuUser = new QiuUser();
-//        qiuUser.setId(5);
-//        qiuUser.setUname("smallQiu");
+//        qiuUser.setId(6);
+//        qiuUser.setUname("helloqiu");
 //        Integer integer = action.insertOne(qiuUser);
 
     }
