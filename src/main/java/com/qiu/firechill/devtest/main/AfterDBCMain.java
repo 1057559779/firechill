@@ -25,6 +25,5 @@ public class AfterDBCMain {
 //        qiuUser.setUname("smallQiu");
 //        Integer integer = action.insertOne(qiuUser);
 
-
     }
 }

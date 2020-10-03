@@ -152,7 +152,7 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
         StringBuilder paramIndex = new StringBuilder("(");
         //值s
         List<Object> vals = new ArrayList<>();
-        //insert into table (,,) values(?,?)
+        //创建初始化的sql
         StringBuilder sql = new StringBuilder("insert into "+tablename+" (");
         //将object 里面的值取出来
         for (int i = 0; i < obfields.length; i++) {
@@ -170,8 +170,9 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
                 vals.add(val);
             }
          }
-        //拼接sql
+        //拼接sql  去掉最后一个半括号
         StringBuilder newSql = new StringBuilder(sql.substring(0, sql.length() - 1));
+        //占位符们
         StringBuilder newParamIndex = new StringBuilder(paramIndex.substring(0, paramIndex.length() - 1));
         newParamIndex.append(")");
         newSql.append(") values ");

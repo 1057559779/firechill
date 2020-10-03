@@ -51,9 +51,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                //字段名拼接
                String value = columnName.value();
                sql.append(value);
-               if(i != fields.length-1){
-                   sql.append(",");
-               }
+               sql.append(",");
                //获得属性名String
                String name = fields[i].getName();
                names[i]=value;
@@ -64,12 +62,15 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                classes[i]=type;
            }
        }
-       sql.append(" from");
+       //去掉最后一个逗号
+       StringBuilder newsql = new StringBuilder(sql.substring(0, sql.length() - 1));
+       newsql.append(" from");
        TableName tann = clazz.getAnnotation(TableName.class);
+       //获取表名
        String value = tann.value();
-       sql.append(" "+value);
+       newsql.append(" "+value);
 
-       return sql;
+       return newsql;
    }
 
     @Override
@@ -81,9 +82,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                 //字段名拼接
                 String value = columnName.value();
                 sql.append(value);
-                if(i != fields.length-1){
-                    sql.append(",");
-                }
+                sql.append(",");
                 //获得属性名String
                 String name = fields[i].getName();
                 names[i]=value;
@@ -94,11 +93,13 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                 classes[i]=type;
             }
         }
-        sql.append(" from");
+
+        StringBuilder newsql = new StringBuilder(sql.substring(0, sql.length() - 1));
+        newsql.append(" from");
         TableName tann = clazz.getAnnotation(TableName.class);
         String value = tann.value();
-        sql.append(" "+value+" where "+col+"=?");
-        return sql;
+        newsql.append(" "+value+" where "+col+"=?");
+        return newsql;
     }
 
     //生成返回值 无参数 调用方可以判断是否需要get[0]
