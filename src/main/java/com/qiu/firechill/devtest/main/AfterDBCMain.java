@@ -18,12 +18,13 @@ public class AfterDBCMain {
     public static void main(String[] args) throws Exception {
 
         SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(QiuUser.class);
+        QiuUser qiuUser = new QiuUser();
+//        qiuUser.setId(2);
+        qiuUser.setUname("firefireboy");
+        Integer id = action.update(qiuUser, "id", 4);
         List<QiuUser> list = action.selectAll();
         System.out.println(list);
-//        QiuUser qiuUser = new QiuUser();
-//        qiuUser.setId(6);
-//        qiuUser.setUname("helloqiu");
-//        Integer integer = action.insertOne(qiuUser);
+
 
     }
 }

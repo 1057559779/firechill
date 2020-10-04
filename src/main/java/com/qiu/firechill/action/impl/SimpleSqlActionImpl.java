@@ -7,10 +7,14 @@ import com.qiu.firechill.ann.TableName;
 import com.qiu.firechill.common.sql.GenerateDeleteSql;
 import com.qiu.firechill.common.sql.GenerateInsertSql;
 import com.qiu.firechill.common.sql.GenerateSelectSql;
+import com.qiu.firechill.common.sql.GenerateUpdateSql;
 import com.qiu.firechill.common.sql.impl.GenerateDeleteSqlImpl;
 import com.qiu.firechill.common.sql.impl.GenerateInsertSqlImpl;
 import com.qiu.firechill.common.sql.impl.GenerateSelectSqlImpl;
+import com.qiu.firechill.common.sql.impl.GenerateUpdateSqlImpl;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -166,10 +170,24 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
         return i;
     }
 
-
     @Override
-    public Integer update() {
-        return null;
+    public Integer update(Object o, String col, Object val) throws Exception {
+        GenerateUpdateSql generate = new GenerateUpdateSqlImpl();
+        Map<String, Object> re = generate.getSql(o, col, val);
+        String sql = (String)re.get("sql");
+        List<Object> vals = (List<Object>)re.get("vals");
+        PreparedStatement pstmt = connect.prepareStatement(sql);
+        //jdbc的sql占位符是从1开始的
+        for (int i = 0; i < vals.size(); i++) {
+            Object real = vals.get(i);
+            if(real instanceof  String){
+                pstmt.setString(i+1, (String)real);
+            }else if(real instanceof  Integer){
+                pstmt.setInt(i+1, (Integer) real);
+            }
+        }
+        int i = pstmt.executeUpdate();
+        return i;
     }
 
 

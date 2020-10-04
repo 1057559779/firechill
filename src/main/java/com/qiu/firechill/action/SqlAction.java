@@ -32,7 +32,7 @@ public interface SqlAction<T> {
     Integer insertOne(T t) throws IllegalAccessException, InstantiationException, NoSuchMethodException, Exception;
 
     //更新
-    Integer update();
+    Integer update(T t,String col ,Object val) throws InvocationTargetException, IllegalAccessException, Exception;
 
     //动态代理，自定义接口
     <E> E getInterFace(Class<E> clazz);
