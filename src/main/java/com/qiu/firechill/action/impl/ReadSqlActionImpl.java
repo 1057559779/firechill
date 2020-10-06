@@ -18,76 +18,34 @@ public class ReadSqlActionImpl<T> implements ReadSqlAction {
 
     private Class<?> clazz;
 
-    private Field[] fields ;
-
     public ReadSqlActionImpl(Connection connect, Class<?> clazz){
         this.connect=connect;
         this.clazz=clazz;
     }
 
-    public T selectById(Object val) throws Exception {
-        //属性
-        fields=clazz.getDeclaredFields();
-        //方法名String
-        String[] methodname = new String[fields.length];
-        //属性名
-        String[] names = new String[fields.length];
-        //所有属性的数据类型
-        Class[] classes = new Class[fields.length];
 
-        GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
-        //生成sql
-        StringBuilder sql = generate.getSql("id");
-        //得到返回值
-        List<T> list = generate.getRetrun(connect, sql,val);
-        T t = list.get(0);
-        return t;
+    @Override
+    public Object selectById(Object val) throws Exception {
+        return null;
     }
 
     @Override
     public Object selectOneByCol(String col, Object val) throws Exception {
-        //属性
-        fields=clazz.getDeclaredFields();
-        //方法名String
-        String[] methodname = new String[fields.length];
-        //属性名
-        String[] names = new String[fields.length];
-        //所有属性的数据类型
-        Class[] classes = new Class[fields.length];
-
-        GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
-        //生成sql
-        StringBuilder sql = generate.getSql(col);
-        //得到返回值
-        List<T> list = generate.getRetrun(connect, sql,val);
-        T t = list.get(0);
-        return t;
+        return null;
     }
 
     @Override
     public List selectListByCol(String col, Object val) throws Exception {
-
-        //属性
-        fields=clazz.getDeclaredFields();
-        //方法名String
-        String[] methodname = new String[fields.length];
-        //属性名
-        String[] names = new String[fields.length];
-        //所有属性的数据类型
-        Class[] classes = new Class[fields.length];
-
-        GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
-        //生成sql
-        StringBuilder sql = generate.getSql(col);
-        //得到返回值
-        List<T> list = generate.getRetrun(connect, sql,val);
-
-        return list;
+        return null;
     }
 
-    public List<T> selectAll() throws Exception {
+
+    // 字段名：table+col
+    @Override
+    public List selectAll() throws Exception {
+
         //属性
-        fields=clazz.getDeclaredFields();
+        Field[] fields=clazz.getDeclaredFields();
         //方法名String
         String[] methodname = new String[fields.length];
         //属性名
@@ -96,10 +54,8 @@ public class ReadSqlActionImpl<T> implements ReadSqlAction {
         Class[] classes = new Class[fields.length];
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
-        //生成sql
-        StringBuilder sql = generate.getSql();
-        //得到返回值
-        List<T> list = generate.getRetrun(connect, sql);
-        return list;
+        generate.getReleSql();
+
+        return null;
     }
 }

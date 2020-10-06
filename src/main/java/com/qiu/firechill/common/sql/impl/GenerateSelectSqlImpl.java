@@ -1,7 +1,9 @@
 package com.qiu.firechill.common.sql.impl;
 
 import com.qiu.firechill.ann.ColumnName;
+import com.qiu.firechill.ann.OneToOne;
 import com.qiu.firechill.ann.TableName;
+import com.qiu.firechill.common.field.FieldCommon;
 import com.qiu.firechill.common.sql.GenerateSelectSql;
 import com.qiu.firechill.devtest.config.MyDataSourceConfig;
 
@@ -101,6 +103,54 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         TableName tann = clazz.getAnnotation(TableName.class);
         String value = tann.value();
         newsql.append(" "+value+" where "+col+"=?");
+        return newsql;
+    }
+
+    //不同于上面的getSql 这个getRelSql方法是做联表用的
+    @Override
+    public StringBuilder getReleSql() {
+        // select * FROM qiu_user LEFT JOIN qiu_role ON qiu_user.rid = qiu_role.id
+        StringBuilder sql = new StringBuilder("select ");
+        String oneToOneSql="";
+        //获得当前表名
+        TableName table = clazz.getAnnotation(TableName.class);
+        String tablename = table.value();
+        for (int i = 0; i < fields.length; i++) {
+            ColumnName columnName =fields[i].getAnnotation(ColumnName.class);
+            OneToOne onetoone = fields[i].getAnnotation(OneToOne.class);
+            if(columnName != null){
+                //字段名拼接
+                String value = columnName.value();
+                sql.append(tablename+"."+value);
+                sql.append(",");
+                //获得属性名String
+                String name = fields[i].getName();
+                names[i]=value;
+                //首字母大写化(方法化)
+                String upname ="set"+name.substring(0,1).toUpperCase()+name.substring(1);
+                methodname[i]=upname;
+                Class<?> type = fields[i].getType();
+                classes[i]=type;
+            }
+            if(onetoone !=null){
+                //获得onetoone 一对一注解的 sql
+                Class<?> type = fields[i].getType();
+                //得到当前的id
+                String pkey = onetoone.pkey();
+                //得到外键id
+                String skey = onetoone.skey();
+                oneToOneSql = FieldCommon.getOneToOneJoinSql(type,tablename,pkey,skey);
+
+                String scol = FieldCommon.getOneToOneColSql(type);
+
+                sql.append(scol);
+            }
+
+        }
+        //去掉最后一个逗号
+        StringBuilder newsql = new StringBuilder(sql.substring(0, sql.length() - 1));
+        newsql.append(" from "+tablename);
+        newsql.append(oneToOneSql);
         return newsql;
     }
 

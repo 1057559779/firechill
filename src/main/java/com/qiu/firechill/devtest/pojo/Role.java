@@ -1,6 +1,7 @@
 package com.qiu.firechill.devtest.pojo;
 
 import com.qiu.firechill.ann.ColumnName;
+import com.qiu.firechill.ann.OneToOne;
 import com.qiu.firechill.ann.TableName;
 
 /**
@@ -16,6 +17,9 @@ public class Role {
 
     @ColumnName("rname")
     private String rname;
+
+//    @OneToOne(skey = "sid",pkey = "pid")
+//    private MoreToMorePojo moreToMorePojo;
 
     public int getId() {
         return id;

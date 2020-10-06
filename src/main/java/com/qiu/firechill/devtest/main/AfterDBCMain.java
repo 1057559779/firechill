@@ -1,5 +1,6 @@
 package com.qiu.firechill.devtest.main;
 
+import com.qiu.firechill.action.ReadSqlAction;
 import com.qiu.firechill.action.SqlAction;
 import com.qiu.firechill.ann.Insert;
 import com.qiu.firechill.devtest.mapper.TestMapper;
@@ -19,9 +20,8 @@ public class AfterDBCMain {
 
     public static void main(String[] args) throws Exception {
 
-        SqlAction<User> action = new CommonDBConnectFactory().getAction(User.class);
+        ReadSqlAction read = new CommonDBConnectFactory().getReadSqlAction(User.class);
 
-        List<User> list = action.selectAll();
-        System.out.println(list);
+        List<User> list = read.selectAll();
     }
 }

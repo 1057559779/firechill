@@ -22,7 +22,7 @@ public class User {
     @ColumnName("rid")
     private Integer rid;
 
-    //关联子表  select * FROM qiu_user LEFT JOIN qiu_role ON qiu_user.rid = qiu_role.id
+    //关联子表
     @OneToOne(pkey = "rid",skey = "id")
     private Role role;
 
