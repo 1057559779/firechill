@@ -45,6 +45,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
     public  StringBuilder getSql(){
 
        StringBuilder sql = new StringBuilder("select ");
+       //属性数组的拼接
        for (int i = 0; i < fields.length; i++) {
            ColumnName columnName =fields[i].getAnnotation(ColumnName.class);
            if(columnName != null){
@@ -67,8 +68,9 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
        newsql.append(" from");
        TableName tann = clazz.getAnnotation(TableName.class);
        //获取表名
-       String value = tann.value();
-       newsql.append(" "+value);
+       String tablename = tann.value();
+       //目前是单表sql的拼接已经结束
+       newsql.append(" "+tablename);
 
        return newsql;
    }
@@ -111,15 +113,17 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         while (rs.next()){
             T o = (T)clazz.newInstance();
             for (int i = 0; i <names.length ; i++) {
-                Method method = clazz.getMethod(methodname[i], classes[i]);
-                if(rs.getObject(names[i]) instanceof String ){
-                    method.invoke(o,rs.getString(names[i]));
-                }
-                else if(rs.getObject(names[i]) instanceof Integer){
-                    method.invoke(o,rs.getInt(names[i]));
-                }
-                else{
-                    method.invoke(o,rs.getObject(names[i]));
+                if(methodname[i] !=null && classes[i]!=null){
+                    Method method = clazz.getMethod(methodname[i], classes[i]);
+                    if(rs.getObject(names[i]) instanceof String ){
+                        method.invoke(o,rs.getString(names[i]));
+                    }
+                    else if(rs.getObject(names[i]) instanceof Integer){
+                        method.invoke(o,rs.getInt(names[i]));
+                    }
+                    else{
+                        method.invoke(o,rs.getObject(names[i]));
+                    }
                 }
             }
             list.add(o);
@@ -141,15 +145,17 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         while (rs.next()){
             T o = (T)clazz.newInstance();
             for (int i = 0; i <names.length ; i++) {
-                Method method = clazz.getMethod(methodname[i], classes[i]);
-                if(rs.getObject(names[i]) instanceof String ){
-                    method.invoke(o,rs.getString(names[i]));
-                }
-                else if(rs.getObject(names[i]) instanceof Integer){
-                    method.invoke(o,rs.getInt(names[i]));
-                }
-                else{
-                    method.invoke(o,rs.getObject(names[i]));
+                if(methodname[i] !=null && classes[i]!=null){
+                    Method method = clazz.getMethod(methodname[i], classes[i]);
+                    if(rs.getObject(names[i]) instanceof String ){
+                        method.invoke(o,rs.getString(names[i]));
+                    }
+                    else if(rs.getObject(names[i]) instanceof Integer){
+                        method.invoke(o,rs.getInt(names[i]));
+                    }
+                    else{
+                        method.invoke(o,rs.getObject(names[i]));
+                    }
                 }
             }
             list.add(o);

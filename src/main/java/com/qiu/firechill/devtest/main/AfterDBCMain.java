@@ -4,6 +4,8 @@ import com.qiu.firechill.action.SqlAction;
 import com.qiu.firechill.ann.Insert;
 import com.qiu.firechill.devtest.mapper.TestMapper;
 import com.qiu.firechill.devtest.pojo.QiuUser;
+import com.qiu.firechill.devtest.pojo.Role;
+import com.qiu.firechill.devtest.pojo.User;
 import com.qiu.firechill.session.impl.CommonDBConnectFactory;
 
 import java.util.List;
@@ -17,14 +19,9 @@ public class AfterDBCMain {
 
     public static void main(String[] args) throws Exception {
 
-        SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(QiuUser.class);
-        QiuUser qiuUser = new QiuUser();
-//        qiuUser.setId(2);
-        qiuUser.setUname("firefireboy");
-        Integer id = action.update(qiuUser, "id", 4);
-        List<QiuUser> list = action.selectAll();
+        SqlAction<User> action = new CommonDBConnectFactory().getAction(User.class);
+
+        List<User> list = action.selectAll();
         System.out.println(list);
-
-
     }
 }

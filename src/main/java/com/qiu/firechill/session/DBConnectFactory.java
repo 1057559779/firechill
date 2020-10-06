@@ -1,5 +1,8 @@
 package com.qiu.firechill.session;
 
+import com.qiu.firechill.action.CudSqlAction;
+import com.qiu.firechill.action.DefaultSelfSqlAction;
+import com.qiu.firechill.action.ReadSqlAction;
 import com.qiu.firechill.action.SqlAction;
 
 import javax.sql.DataSource;
@@ -15,5 +18,10 @@ public interface DBConnectFactory {
 
     SqlAction getAction(Class<?> clazz) throws Exception;
 
+    CudSqlAction getCudSqlAction(Class<?> clazz) throws Exception;
+
+    ReadSqlAction getReadSqlAction(Class<?> clazz) throws Exception;
+
+    DefaultSelfSqlAction getDefalutSqlAction();
 
 }

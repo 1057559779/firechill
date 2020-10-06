@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * @Author qiu
  * @create 2020/9/25 16:12
- * @Des 简单的sql操作类
+ * @Des 简单的sql操作类 全写了
  */
 public class SimpleSqlActionImpl<T> implements SqlAction {
 
