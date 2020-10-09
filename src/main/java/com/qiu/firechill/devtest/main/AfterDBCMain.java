@@ -20,9 +20,9 @@ public class AfterDBCMain {
 
     public static void main(String[] args) throws Exception {
 
-        ReadSqlAction read = new CommonDBConnectFactory().getReadSqlAction(User.class);
+        SqlAction<User> action = new CommonDBConnectFactory().getAction(User.class);
 
-        List<User> list = read.selectAll();
-        System.out.println(list);
+        User user = action.selectById(1);
+        System.out.println(user);
     }
 }

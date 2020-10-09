@@ -26,17 +26,64 @@ public class ReadSqlActionImpl<T> implements ReadSqlAction {
 
     @Override
     public Object selectById(Object val) throws Exception {
-        return null;
+        //属性
+        Field[] fields=clazz.getDeclaredFields();
+        //方法名String
+        String[] methodname = new String[fields.length];
+        //属性名
+        String[] names = new String[fields.length];
+        //所有属性的数据类型
+        Class[] classes = new Class[fields.length];
+
+        GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
+        //生成sql
+        String sql = generate.getReleSql("id");
+        //得到返回值
+        List<T> list = generate.getReleReturn(connect, sql,val);
+        T t = list.get(0);
+        return t;
     }
 
     @Override
     public Object selectOneByCol(String col, Object val) throws Exception {
-        return null;
+        //属性
+        Field[] fields=clazz.getDeclaredFields();
+        //方法名String
+        String[] methodname = new String[fields.length];
+        //属性名
+        String[] names = new String[fields.length];
+        //所有属性的数据类型
+        Class[] classes = new Class[fields.length];
+
+        GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
+        //生成sql
+        String sql = generate.getReleSql(col);
+        //得到返回值
+        List<T> list = generate.getReleReturn(connect, sql,val);
+        T t = list.get(0);
+        return t;
     }
 
     @Override
     public List selectListByCol(String col, Object val) throws Exception {
-        return null;
+        //属性
+        Field[] fields=clazz.getDeclaredFields();
+        //方法名String
+        String[] methodname = new String[fields.length];
+        //属性名
+        String[] names = new String[fields.length];
+        //所有属性的数据类型
+        Class[] classes = new Class[fields.length];
+        //属性
+        fields=clazz.getDeclaredFields();
+
+        GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
+        //生成sql
+        String sql = generate.getReleSql(col);
+        //得到返回值
+        List<T> list = generate.getReleReturn(connect, sql,val);
+
+        return list;
     }
 
 
@@ -55,7 +102,7 @@ public class ReadSqlActionImpl<T> implements ReadSqlAction {
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
         String releSql = generate.getReleSql();
-        List<T> relReturn = generate.getRelReturn(clazz,connect, releSql);
+        List<T> relReturn = generate.getReleReturn(clazz,connect, releSql);
 
         return relReturn;
     }

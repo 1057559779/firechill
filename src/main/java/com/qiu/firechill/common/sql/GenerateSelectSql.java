@@ -10,18 +10,14 @@ import java.util.List;
  */
 public interface GenerateSelectSql<T> {
 
-    StringBuilder getSql();
-
-    StringBuilder getSql(String col);
+    String getReleSql(String col);
 
     String getReleSql();
 
-    List<T> getRetrun(Connection connect, StringBuilder sql) throws Exception;
-
-    List<T> getRetrun(Connection connect, StringBuilder sql,Object param) throws Exception;
+    List<T> getReleReturn(Connection connect, String sql,Object param) throws Exception;
 
     List<T> getRetrun(Connection connect,StringBuilder sql,String[] params,Object[] args) throws Exception;
 
-    List<T> getRelReturn(Class<?> clazz ,Connection connect, String sql) throws Exception;
+    List<T> getReleReturn(Class<?> clazz ,Connection connect, String sql) throws Exception;
 
 }

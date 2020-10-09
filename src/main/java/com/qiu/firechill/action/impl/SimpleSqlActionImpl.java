@@ -2,8 +2,6 @@ package com.qiu.firechill.action.impl;
 
 import com.qiu.firechill.action.SqlAction;
 import com.qiu.firechill.action.SqlActionProxy;
-import com.qiu.firechill.ann.ColumnName;
-import com.qiu.firechill.ann.TableName;
 import com.qiu.firechill.common.sql.GenerateDeleteSql;
 import com.qiu.firechill.common.sql.GenerateInsertSql;
 import com.qiu.firechill.common.sql.GenerateSelectSql;
@@ -12,14 +10,10 @@ import com.qiu.firechill.common.sql.impl.GenerateDeleteSqlImpl;
 import com.qiu.firechill.common.sql.impl.GenerateInsertSqlImpl;
 import com.qiu.firechill.common.sql.impl.GenerateSelectSqlImpl;
 import com.qiu.firechill.common.sql.impl.GenerateUpdateSqlImpl;
-
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +22,7 @@ import java.util.Map;
  * @create 2020/9/25 16:12
  * @Des 简单的sql操作类 全写了
  */
-public class SimpleSqlActionImpl<T> implements SqlAction {
+public class SimpleSqlActionImpl<T> implements SqlAction<T> {
 
     private Connection connect;
 
@@ -53,15 +47,15 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
         //生成sql
-        StringBuilder sql = generate.getSql("id");
+        String sql = generate.getReleSql("id");
         //得到返回值
-        List<T> list = generate.getRetrun(connect, sql,val);
+        List<T> list = generate.getReleReturn(connect, sql,val);
         T t = list.get(0);
         return t;
     }
 
     @Override
-    public Object selectOneByCol(String col, Object val) throws Exception {
+    public T selectOneByCol(String col, Object val) throws Exception {
         //属性
         fields=clazz.getDeclaredFields();
         //方法名String
@@ -73,15 +67,15 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
         //生成sql
-        StringBuilder sql = generate.getSql(col);
+        String sql = generate.getReleSql(col);
         //得到返回值
-        List<T> list = generate.getRetrun(connect, sql,val);
+        List<T> list = generate.getReleReturn(connect, sql,val);
         T t = list.get(0);
         return t;
     }
 
     @Override
-    public List selectListByCol(String col, Object val) throws Exception {
+    public List<T> selectListByCol(String col, Object val) throws Exception {
 
         //属性
         fields=clazz.getDeclaredFields();
@@ -94,16 +88,16 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
         //生成sql
-        StringBuilder sql = generate.getSql(col);
+        String sql = generate.getReleSql(col);
         //得到返回值
-        List<T> list = generate.getRetrun(connect, sql,val);
+        List<T> list = generate.getReleReturn(connect, sql,val);
 
         return list;
     }
 
     public List<T> selectAll() throws Exception {
         //属性
-        fields=clazz.getDeclaredFields();
+        Field[] fields=clazz.getDeclaredFields();
         //方法名String
         String[] methodname = new String[fields.length];
         //属性名
@@ -112,11 +106,10 @@ public class SimpleSqlActionImpl<T> implements SqlAction {
         Class[] classes = new Class[fields.length];
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
-        //生成sql
-        StringBuilder sql = generate.getSql();
-        //得到返回值
-        List<T> list = generate.getRetrun(connect, sql);
-        return list;
+        String releSql = generate.getReleSql();
+        List<T> relReturn = generate.getReleReturn(clazz,connect, releSql);
+
+        return relReturn;
     }
 
     @Override
