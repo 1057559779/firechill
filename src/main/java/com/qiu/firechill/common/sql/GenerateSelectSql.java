@@ -14,7 +14,7 @@ public interface GenerateSelectSql<T> {
 
     StringBuilder getSql(String col);
 
-    StringBuilder getReleSql();
+    String getReleSql();
 
     List<T> getRetrun(Connection connect, StringBuilder sql) throws Exception;
 
@@ -22,6 +22,6 @@ public interface GenerateSelectSql<T> {
 
     List<T> getRetrun(Connection connect,StringBuilder sql,String[] params,Object[] args) throws Exception;
 
-
+    List<T> getRelReturn(Class<?> clazz ,Connection connect, String sql) throws Exception;
 
 }

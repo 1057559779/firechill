@@ -108,7 +108,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
 
     //不同于上面的getSql 这个getRelSql方法是做联表用的
     @Override
-    public StringBuilder getReleSql() {
+    public String getReleSql() {
         // select * FROM qiu_user LEFT JOIN qiu_role ON qiu_user.rid = qiu_role.id
         StringBuilder sql = new StringBuilder("select ");
         String oneToOneSql="";
@@ -121,16 +121,8 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
             if(columnName != null){
                 //字段名拼接
                 String value = columnName.value();
-                sql.append(tablename+"."+value);
+                sql.append(tablename+"."+value+" as "+tablename+value);
                 sql.append(",");
-                //获得属性名String
-                String name = fields[i].getName();
-                names[i]=value;
-                //首字母大写化(方法化)
-                String upname ="set"+name.substring(0,1).toUpperCase()+name.substring(1);
-                methodname[i]=upname;
-                Class<?> type = fields[i].getType();
-                classes[i]=type;
             }
             if(onetoone !=null){
                 //获得onetoone 一对一注解的 sql
@@ -151,7 +143,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         StringBuilder newsql = new StringBuilder(sql.substring(0, sql.length() - 1));
         newsql.append(" from "+tablename);
         newsql.append(oneToOneSql);
-        return newsql;
+        return newsql.toString();
     }
 
     //生成返回值 无参数 调用方可以判断是否需要get[0]
@@ -263,4 +255,57 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         return list;
     }
 
+    @Override
+    public List getRelReturn(Class clazz, Connection connect, String sql) throws Exception {
+
+        //表名，用于取别名用
+        String tableName = getTableName(clazz);
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        //存放返回的list
+        List<T> list = new ArrayList<>();
+        Field[] fields = clazz.getDeclaredFields();
+        while (rs.next()){
+            T o = (T)clazz.newInstance();
+            for (Field field:fields) {
+                ColumnName columnName =field.getAnnotation(ColumnName.class);
+                OneToOne onetoone = field.getAnnotation(OneToOne.class);
+                //获得属性名
+                String name = field.getName();
+                //获得方法名
+                String mname ="set"+name.substring(0,1).toUpperCase()+name.substring(1);
+                //获得属性的类型
+                Class<?> type = field.getType();
+                Method method = clazz.getMethod(mname, type);
+                String lable =tableName+name;
+                if(columnName != null){
+                    if(rs.getObject(lable) instanceof String ){
+                        method.invoke(o,rs.getString(lable));
+                    }
+                    else if(rs.getObject(lable) instanceof Integer){
+                        method.invoke(o,rs.getInt(lable));
+                    }
+                    else{
+                        method.invoke(o,rs.getObject(lable));
+                    }
+                }
+                if(onetoone != null){
+
+                    Object sobj = FieldCommon.getOneToOneReturn(type, rs);
+                    method.invoke(o,sobj);
+                }
+            }
+            list.add(o);
+        }
+        return list;
+    }
+
+    public static String getTableName(Class clazz){
+
+        TableName table = (TableName)clazz.getAnnotation(TableName.class);
+
+        String tablename = table.value();
+
+        return tablename;
+    }
 }

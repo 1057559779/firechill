@@ -23,5 +23,6 @@ public class AfterDBCMain {
         ReadSqlAction read = new CommonDBConnectFactory().getReadSqlAction(User.class);
 
         List<User> list = read.selectAll();
+        System.out.println(list);
     }
 }

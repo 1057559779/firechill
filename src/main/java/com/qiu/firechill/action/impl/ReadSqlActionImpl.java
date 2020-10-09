@@ -54,8 +54,9 @@ public class ReadSqlActionImpl<T> implements ReadSqlAction {
         Class[] classes = new Class[fields.length];
 
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
-        generate.getReleSql();
+        String releSql = generate.getReleSql();
+        List<T> relReturn = generate.getRelReturn(clazz,connect, releSql);
 
-        return null;
+        return relReturn;
     }
 }
