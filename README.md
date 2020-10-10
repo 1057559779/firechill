@@ -5,7 +5,9 @@
 firechill 中文译名:"凉火" 由qiubrobro团队开发的orm框架   
 要说一群小屁孩为什么突然想搞框架研发了，初衷很简单：就是想发现更好的自己。大部分java研发程序员梦想就是研发出可以代替spring的框架，我们也不例外，但是路很漫长，firechill将是起点。
 
-目前阶段已经完成了select部分的操作 （基于方法的条件构造器还未完成）
+目前阶段已经完成了基于实体类的crud操作，以及动态代理面向接口编程的自定义sql
+
+对比了如火如荼的mybatis-plus 发现它没有实体类联表的操作，所以咱们就弄了一个实体类联表的功能，详见第4项。
 
 #### 软件架构
 
@@ -16,7 +18,7 @@ java原生jdbc的封装，目前阶段仅允许mysql驱动的接入，但是数�
 
 项目结构截图如下
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1001/093646_cfba14ea_5118695.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1010/112129_a752cfde_5118695.png "屏幕截图.png")
 
 需要说明的是:框架测试环境将放在devtest包下，使用框架的实例就在这个包里面。
 
@@ -131,9 +133,6 @@ public class AfterDBCMain {
 
 以上代码可以看到无需手写sql即可实现全部查询
 
-目前该不需要写sql的方式已经研发了如下四个方法
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1001/095743_da7a09ef_5118695.png "屏幕截图.png")
 
 方法命名如同用法。
 
@@ -179,4 +178,61 @@ public class AfterDBCMain {
 结果截图如下：
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/1001/100642_6987b777_5118695.png "屏幕截图.png")
+
+那么删插改操作也是差不多的操作。
+
+4.  联表操作，示例如下：
+
+准备两个实体类，User和Role 目前暂定User和Role是一对一的关系
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1010/112623_27415668_5118695.png "屏幕截图.png")
+
+User实体类代码如下：对比上面的单表QiuUser 该实体类多了一个 @OneToOne的注解 pkey就是当前实体类要关联的字段，skey就是被关联表的要被关联的字段。
+
+```
+@TableName("qiu_user")
+public class User {
+
+    @ColumnName("id")
+    private Integer id;
+
+    @ColumnName("uname")
+    private String uname;
+
+    @ColumnName("rid")
+    private Integer rid;
+
+    //关联子表
+    @OneToOne(pkey = "rid",skey = "id")
+    private Role role;
+```
+Role实体类代码如下：很普通，只需要主表定义注解了就可以了
+
+```
+@TableName("qiu_role")
+public class Role {
+
+    @ColumnName("id")
+    private int id;
+
+    @ColumnName("rname")
+    private String rname;
+```
+main方法测试：
+
+```
+public class AfterDBCMain {
+
+    public static void main(String[] args) throws Exception {
+
+        SqlAction<User> action = new CommonDBConnectFactory().getAction(User.class);
+
+        User user = action.selectById(1);
+        System.out.println(user);
+    }
+}
+```
+结果如下：
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1010/112945_142fdf6a_5118695.png "屏幕截图.png")
 
