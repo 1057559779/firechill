@@ -21,7 +21,7 @@ public class GenerateInsertSqlImpl implements GenerateInsertSql {
 
     @Override
     public Map<String, Object> getInsertOneSql(Object o) throws Exception {
-        buildSql(new ArrayList(){{add(o);}});
+       return buildSql(new ArrayList(){{add(o);}});
     }
     public Map<String, Object> buildSql(List<Object> lists) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         //key sql   key List<Object> 存放一个对象中的所有值
