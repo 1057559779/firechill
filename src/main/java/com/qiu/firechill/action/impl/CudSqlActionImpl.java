@@ -81,6 +81,11 @@ public class CudSqlActionImpl implements CudSqlAction {
     }
 
     @Override
+    public Integer insertMore(List lists) throws SQLException {
+        return null;
+    }
+
+    @Override
     public Integer update(Object o, String col, Object val) throws Exception {
         GenerateUpdateSql generate = new GenerateUpdateSqlImpl();
         Map<String, Object> re = generate.getSql(o, col, val);

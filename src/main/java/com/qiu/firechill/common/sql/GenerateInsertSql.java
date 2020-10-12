@@ -1,6 +1,7 @@
 package com.qiu.firechill.common.sql;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,4 +11,6 @@ import java.util.Map;
 public interface GenerateInsertSql {
 
     Map<String,Object> getInsertOneSql(Object o) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, Exception;
+
+    Map<String,Object> getInsertMoreSql(List o) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException;
 }

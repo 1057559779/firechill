@@ -9,6 +9,7 @@ import com.qiu.firechill.devtest.pojo.Role;
 import com.qiu.firechill.devtest.pojo.User;
 import com.qiu.firechill.session.impl.CommonDBConnectFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,9 +21,13 @@ public class AfterDBCMain {
 
     public static void main(String[] args) throws Exception {
 
-        SqlAction<User> action = new CommonDBConnectFactory().getAction(User.class);
-
-        User user = action.selectById(1);
-        System.out.println(user);
+        SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(QiuUser.class);
+        QiuUser a=new QiuUser();
+        a.setUname("wccc-csa");
+        QiuUser b=new QiuUser();
+        b.setUname("wccc-csb");
+        List o=new ArrayList(){{add(a);add(b);}};
+        Integer integer = action.insertMore(o);
+        System.out.println(integer);
     }
 }

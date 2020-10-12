@@ -2,6 +2,7 @@ package com.qiu.firechill.action;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @Author qiu
@@ -19,6 +20,8 @@ public interface CudSqlAction<T> {
     //插入
     Integer insertOne(T t) throws IllegalAccessException, InstantiationException, NoSuchMethodException, Exception;
 
+    //批量插入
+    Integer insertMore(List<T> lists) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException;
     //更新
     Integer update(T t,String col ,Object val) throws InvocationTargetException, IllegalAccessException, Exception;
 }

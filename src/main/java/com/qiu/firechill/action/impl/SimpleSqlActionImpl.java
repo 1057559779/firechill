@@ -11,6 +11,7 @@ import com.qiu.firechill.common.sql.impl.GenerateInsertSqlImpl;
 import com.qiu.firechill.common.sql.impl.GenerateSelectSqlImpl;
 import com.qiu.firechill.common.sql.impl.GenerateUpdateSqlImpl;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -141,26 +142,17 @@ public class SimpleSqlActionImpl<T> implements SqlAction<T> {
     }
 
     @Override
+    public Integer insertMore(List<T> lists) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        GenerateInsertSql generate = new GenerateInsertSqlImpl();
+        Map<String, Object> returnMap = generate.getInsertMoreSql(lists);
+        return insertDo(returnMap);
+    }
+
+    @Override
     public Integer insertOne(Object o) throws Exception {
         GenerateInsertSql generate = new GenerateInsertSqlImpl();
         Map<String, Object> returnMap = generate.getInsertOneSql(o);
-        //sql 返回的sql    vals 范围的一个对象的属性值
-        String sql = (String)returnMap.get("sql");
-        List<Object> vals = (List<Object>)returnMap.get("vals");
-        PreparedStatement pstmt = connect.prepareStatement(sql);
-        //jdbc的sql占位符是从1开始的
-        for (int i = 0; i < vals.size(); i++) {
-            Object real = vals.get(i);
-            if(real instanceof  String){
-                pstmt.setString(i+1, (String)real);
-            }else if(real instanceof  Integer){
-                pstmt.setInt(i+1, (Integer) real);
-            }else if(real == null){
-                pstmt.setObject(i+1,null);
-            }
-        }
-        int i = pstmt.executeUpdate();
-        return i;
+        return insertDo(returnMap);
     }
 
     @Override
@@ -189,5 +181,29 @@ public class SimpleSqlActionImpl<T> implements SqlAction<T> {
         SqlActionProxy sqlActionProxy = new SqlActionProxy(clazz);
         Object proxy = sqlActionProxy.getProxy();
         return proxy;
+    }
+
+    public int insertDo(Map<String, Object> returnMap){
+        //sql 返回的sql    vals 范围的一个对象的属性值
+        String sql = (String)returnMap.get("sql");
+        List<Object> vals = (List<Object>)returnMap.get("vals");
+
+        try(PreparedStatement pstmt = connect.prepareStatement(sql)){
+            //jdbc的sql占位符是从1开始的
+            for (int i = 0; i < vals.size(); i++) {
+                Object real = vals.get(i);
+                if(real instanceof  String){
+                    pstmt.setString(i+1, (String)real);
+                }else if(real instanceof  Integer){
+                    pstmt.setInt(i+1, (Integer) real);
+                }else if(real == null){
+                    pstmt.setObject(i+1,null);
+                }
+            }
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -21,50 +21,69 @@ public class GenerateInsertSqlImpl implements GenerateInsertSql {
 
     @Override
     public Map<String, Object> getInsertOneSql(Object o) throws Exception {
+        buildSql(new ArrayList(){{add(o);}});
+    }
+    public Map<String, Object> buildSql(List<Object> lists) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         //key sql   key List<Object> 存放一个对象中的所有值
-        Class<?> obclass = o.getClass();
+        Object o1 = lists.get(0);
+        Class<?> obclass = o1.getClass();
         TableName table = obclass.getAnnotation(TableName.class);
         //得到表名
         String tablename = table.value();
-        //属性数组
-        Field[] obfields = obclass.getDeclaredFields();
-        //占位符
-        StringBuilder paramIndex = new StringBuilder("(");
-        //值s
+        //值
         List<Object> vals = new ArrayList<>();
-        //创建初始化的sql
-        StringBuilder sql = new StringBuilder("insert into "+tablename+" (");
+        String annStr = createAnnStr(obclass, ",");
+        String values="("+ String.format("%0" + (obclass.getDeclaredFields().length - 1) + "d", 0).replace("0", "?,")+"?"+")";
+        StringBuilder sql=null;
+        if(lists.size()>1){
+            String values2=String.format("%0" + (lists.size()-1) + "d", 0).replace("0",values+",")+ values;
+            sql = new StringBuilder("insert into "+tablename+" ("+annStr+") values "+values2);
+        }else{
+            sql = new StringBuilder("insert into "+tablename+" ("+annStr+") values "+values);
+        }
+        //创建完整的sql语句
         //将object 里面的值取出来
-        for (int i = 0; i < obfields.length; i++) {
-            ColumnName columnName =obfields[i].getAnnotation(ColumnName.class);
-            if(columnName !=null){
-                //获取字段名
-                String value = columnName.value();
-                String name = obfields[i].getName();
-                sql.append(value+",");
-                paramIndex.append("?,");
-                String mname ="get"+name.substring(0,1).toUpperCase()+name.substring(1);
-                Method method = obclass.getMethod(mname);
-                //得到属性中的值
-                Object val = method.invoke(o);
-                vals.add(val);
+        for(Object o:lists){
+            Class<?> oClass = o.getClass();
+            Field[] obfields = obclass.getDeclaredFields();
+            for (int i = 0; i < obfields.length; i++) {
+                ColumnName columnName =obfields[i].getAnnotation(ColumnName.class);
+                if(columnName !=null){
+                    //获取字段名
+                    String name = obfields[i].getName();
+                    String mname ="get"+name.substring(0,1).toUpperCase()+name.substring(1);
+                    Method method = obclass.getMethod(mname);
+                    //得到属性中的值
+                    Object val = method.invoke(o);
+                    vals.add(val);
+                }
             }
         }
-        //拼接sql  去掉最后一个半括号
-        StringBuilder newSql = new StringBuilder(sql.substring(0, sql.length() - 1));
-        //占位符们
-        StringBuilder newParamIndex = new StringBuilder(paramIndex.substring(0, paramIndex.length() - 1));
-        newParamIndex.append(")");
-        newSql.append(") values ");
-        newSql.append(newParamIndex);
-
         //定义map，将两个需要返回的值返回出去
         Map<String, Object> bigReturn = new HashMap<>();
         //sql
-        bigReturn.put("sql",newSql.toString());
+        bigReturn.put("sql",sql.toString());
         //占位符需要添加的值
         bigReturn.put("vals",vals);
-
         return bigReturn;
+
+    }
+    //从c1中找出c2的注解,并用分隔符拼接每个c2注解的值 (练习)
+    private String createAnnStr(Class c1,String character1){
+        StringBuilder str=new StringBuilder();
+        ColumnName columnName=null;
+        for (Field f:c1.getDeclaredFields()){
+            columnName=f.getAnnotation(ColumnName.class);
+            if(columnName!=null){
+                str.append(columnName.value()+character1);
+            }
+        }
+        str.deleteCharAt(str.length() - character1.length());
+        return str.toString();
+
+    }
+    @Override
+    public Map<String, Object> getInsertMoreSql(List o) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        return buildSql(o);
     }
 }
