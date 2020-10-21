@@ -12,7 +12,7 @@ import java.util.List;
  * @Author VULCAN
  * @create 2020/10/6 12:46
  */
-public class ReadSqlActionImpl<T> implements ReadSqlAction {
+public class ReadSqlActionImpl<T> implements ReadSqlAction<T> {
 
     private Connection connect;
 
@@ -25,7 +25,7 @@ public class ReadSqlActionImpl<T> implements ReadSqlAction {
 
 
     @Override
-    public Object selectById(Object val) throws Exception {
+    public T selectById(Object val) throws Exception {
         //属性
         Field[] fields=clazz.getDeclaredFields();
         //方法名String
@@ -45,7 +45,7 @@ public class ReadSqlActionImpl<T> implements ReadSqlAction {
     }
 
     @Override
-    public Object selectOneByCol(String col, Object val) throws Exception {
+    public T selectOneByCol(String col, Object val) throws Exception {
         //属性
         Field[] fields=clazz.getDeclaredFields();
         //方法名String

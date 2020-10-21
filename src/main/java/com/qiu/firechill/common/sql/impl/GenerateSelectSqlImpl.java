@@ -124,6 +124,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
     }
 
     //生成返回值 单参数的 调用方可以判断是否需要get[0]
+    @Override
     public List<T> getReleReturn(Connection connect,String sql,Object param) throws Exception {
 
         PreparedStatement pstmt = connect.prepareStatement(sql);
@@ -174,6 +175,7 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
     }
 
     //生成放回置，多参数的 自定义sql动态代理类专用
+    @Override
     public List<T> getRetrun(Connection connect,StringBuilder sql,String[] params,Object[] args) throws Exception {
 
         PreparedStatement pstmt = connect.prepareStatement(sql.toString());

@@ -76,6 +76,8 @@ public class SqlActionProxy<T> implements InvocationHandler {
                     String insertsql = insert.sql();
                     o = sqlProxyDo.doChangeSql(insertsql, params, args);
                     break;
+                default:
+                    System.out.println("无法识别sql");;
             }
         }
         return o;

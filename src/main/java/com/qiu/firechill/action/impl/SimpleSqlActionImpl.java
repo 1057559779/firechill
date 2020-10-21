@@ -36,6 +36,7 @@ public class SimpleSqlActionImpl<T> implements SqlAction<T> {
         this.clazz=clazz;
     }
 
+    @Override
     public T selectById(Object val) throws Exception {
         //属性
         fields=clazz.getDeclaredFields();
@@ -96,6 +97,7 @@ public class SimpleSqlActionImpl<T> implements SqlAction<T> {
         return list;
     }
 
+    @Override
     public List<T> selectAll() throws Exception {
         //属性
         Field[] fields=clazz.getDeclaredFields();

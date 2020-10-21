@@ -11,17 +11,54 @@ import java.util.List;
  */
 public interface CudSqlAction<T> {
 
-    //根据id删除
+    /**
+     * 根据id删除 所有字段中必须有一个字段是id
+     * @param val
+     * @return
+     * @throws SQLException
+     */
     Integer deleteByid(Object val) throws SQLException;
 
-    //根据某个字段删除
+    /**
+     * 指定某个字段删除
+     * @param col 字段名
+     * @param val 字段值
+     * @return
+     * @throws SQLException
+     */
     Integer deleteByCol(String col,Object val) throws SQLException;
 
-    //插入
+    /**
+     * 根据实体类中的属性插入一条数据
+     * @param t Entity
+     * @return
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws NoSuchMethodException
+     * @throws Exception
+     */
     Integer insertOne(T t) throws IllegalAccessException, InstantiationException, NoSuchMethodException, Exception;
 
-    //批量插入
+    /**
+     * 根据list泛形中的属性批量插入
+     * @param lists list<Entity>
+     * @return
+     * @throws SQLException
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     Integer insertMore(List<T> lists) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException;
-    //更新
+
+    /**
+     * 根据实体类中的属性来更新指定字段的数据
+     * @param t Entity
+     * @param col  指定字段
+     * @param val  字段的值
+     * @return
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws Exception
+     */
     Integer update(T t,String col ,Object val) throws InvocationTargetException, IllegalAccessException, Exception;
 }

@@ -10,7 +10,24 @@ import java.util.Map;
  */
 public interface GenerateInsertSql {
 
+    /**
+     * 返回拼接好的sql与对应的占位符的值
+     * @param o  Entity
+     * @return
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws Exception
+     */
     Map<String,Object> getInsertOneSql(Object o) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, Exception;
 
-    Map<String,Object> getInsertMoreSql(List o) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException;
+    /**
+     * 返回拼接好的sql与对应的占位符的值
+     * @param list List<Entity>
+     * @return
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
+    Map<String,Object> getInsertMoreSql(List list) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException;
 }

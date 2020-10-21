@@ -8,23 +8,17 @@ import com.qiu.firechill.action.impl.CudSqlActionImpl;
 import com.qiu.firechill.action.impl.DefaultSqlActionImpl;
 import com.qiu.firechill.action.impl.ReadSqlActionImpl;
 import com.qiu.firechill.action.impl.SimpleSqlActionImpl;
-import com.qiu.firechill.common.sql.GenerateSelectSql;
-import com.qiu.firechill.common.sql.impl.GenerateSelectSqlImpl;
 import com.qiu.firechill.devtest.config.MyDataSourceConfig;
-import com.qiu.firechill.session.ConnectBean;
-import com.qiu.firechill.session.DBConnectFactory;
+import com.qiu.firechill.session.DbConnectFactory;
 
-import javax.sql.DataSource;
-import java.lang.reflect.Field;
 import java.sql.*;
-import java.util.List;
 
 /**
  * @Author qiu
  * @create 2020/9/25 14:45
  * @Des 普通方式，用java配置的方式
  */
-public class CommonDBConnectFactory implements DBConnectFactory {
+public class CommonDbConnectFactory implements DbConnectFactory {
     //一次加载多次使用
     private static Connection connect;
 

@@ -17,12 +17,13 @@ public class MyDataSourceConfig implements DataSourceInfoConfig {
 
     private static ConnectBean config;
 
+    @Override
     public ConnectBean config() throws Exception {
         if(config == null){
-            Map<String ,Object> map = new HashMap<String, Object>();
-            map.put("url","jdbc:mysql://localhost:3306/firechill?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true");
+            Map<String ,Object> map = new HashMap<>();
+            map.put("url","jdbc:mysql://120.55.88.202:3306/firechildren?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true");
             map.put("username","root");
-            map.put("password","root");
+            map.put("password","123456");
             map.put("initialSize","5");
             map.put("maxActive","10");
             map.put("maxWait","3000");
@@ -32,9 +33,6 @@ public class MyDataSourceConfig implements DataSourceInfoConfig {
             ConnectBean connectBean = new ConnectBean();
             //装入数据库连接池
             connectBean.setDataSource(ds);
-
-            //扫描mapper文件  没用到忽视它
-            connectBean.setMapperScan("com.qiu.firechill.devtest.mapper");
 
             config=connectBean;
             return config;

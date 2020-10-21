@@ -7,6 +7,11 @@ package com.qiu.firechill.action;
  */
 public interface DefaultSelfSqlAction {
 
-    //动态代理，自定义接口
+    /**
+     * 获得接口的代理实例
+     * @param clazz
+     * @param <E>
+     * @return
+     */
     <E> E getInterFace(Class<E> clazz);
 }

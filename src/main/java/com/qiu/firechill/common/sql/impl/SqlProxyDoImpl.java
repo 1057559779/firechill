@@ -29,7 +29,9 @@ public class SqlProxyDoImpl implements SqlProxyDo {
         GenerateSelectSql generate = new GenerateSelectSqlImpl(clazz, fields,methodname,names,classes);
         StringBuilder sbsql = new StringBuilder(sql);
         List list = generate.getRetrun(conn, sbsql, params, args);
-        if (islist.equals("List")){
+        //确认list的类型
+        String returnType = "List";
+        if (returnType.equals(islist)){
             //这是个list类型的
             return list;
         }else {

@@ -14,14 +14,36 @@ import java.sql.SQLException;
  * @create 2020/9/25 14:44
  * @Des 数据库连接创建工厂
  */
-public interface DBConnectFactory {
+public interface DbConnectFactory {
 
+    /**
+     * 获取有所有功能的sql处理类
+     * @param clazz
+     * @return
+     * @throws Exception
+     */
     SqlAction getAction(Class<?> clazz) throws Exception;
 
+    /**
+     * 增删改专用的sql处理类
+     * @param clazz
+     * @return
+     * @throws Exception
+     */
     CudSqlAction getCudSqlAction(Class<?> clazz) throws Exception;
 
+    /**
+     * 读专用sql处理类
+     * @param clazz
+     * @return
+     * @throws Exception
+     */
     ReadSqlAction getReadSqlAction(Class<?> clazz) throws Exception;
 
+    /**
+     * 自定义的sql处理类
+     * @return
+     */
     DefaultSelfSqlAction getDefalutSqlAction();
 
 }

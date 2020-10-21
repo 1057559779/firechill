@@ -11,8 +11,6 @@ public class ConnectBean {
 
     private DataSource dataSource;
 
-    private String mapperScan;
-
     public DataSource getDataSource() {
         return dataSource;
     }
@@ -21,11 +19,4 @@ public class ConnectBean {
         this.dataSource = dataSource;
     }
 
-    public String getMapperScan() {
-        return mapperScan;
-    }
-
-    public void setMapperScan(String mapperScan) {
-        this.mapperScan = mapperScan;
-    }
 }

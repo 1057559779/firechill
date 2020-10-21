@@ -7,5 +7,10 @@ package com.qiu.firechill.common.sql;
  */
 public interface GenerateDeleteSql {
 
+    /**
+     * 获得sql
+     * @param col 单个字段
+     * @return
+     */
     StringBuilder getSql(String col);
 }

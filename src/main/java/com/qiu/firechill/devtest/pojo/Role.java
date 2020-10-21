@@ -18,9 +18,6 @@ public class Role {
     @ColumnName("rname")
     private String rname;
 
-//    @OneToOne(skey = "sid",pkey = "pid")
-//    private MoreToMorePojo moreToMorePojo;
-
     public int getId() {
         return id;
     }
