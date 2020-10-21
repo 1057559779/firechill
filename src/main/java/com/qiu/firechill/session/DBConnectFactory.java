@@ -3,10 +3,7 @@ package com.qiu.firechill.session;
 import com.qiu.firechill.action.CudSqlAction;
 import com.qiu.firechill.action.DefaultSelfSqlAction;
 import com.qiu.firechill.action.ReadSqlAction;
-import com.qiu.firechill.action.SqlAction;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
+import com.qiu.firechill.action.AllSqlAction;
 
 
 /**
@@ -22,7 +19,7 @@ public interface DbConnectFactory {
      * @return
      * @throws Exception
      */
-    SqlAction getAction(Class<?> clazz) throws Exception;
+    AllSqlAction getAction(Class<?> clazz) throws Exception;
 
     /**
      * 增删改专用的sql处理类

@@ -173,6 +173,9 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                     else if(rs.getObject(lable) instanceof Integer){
                         method.invoke(o,rs.getInt(lable));
                     }
+                    else if(rs.getObject(lable) == null){
+                        //System.out.println("is null"); do nothing
+                    }
                     else{
                         method.invoke(o,rs.getObject(lable));
                     }
@@ -238,6 +241,9 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                 else if(rs.getObject(names[i]) instanceof Integer){
                     method.invoke(o,rs.getInt(names[i]));
                 }
+                else if(rs.getObject(names[i]) == null){
+                    //System.out.println("is null"); do nothing
+                }
                 else{
                     method.invoke(o,rs.getObject(names[i]));
                 }
@@ -276,6 +282,9 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
                     }
                     else if(rs.getObject(lable) instanceof Integer){
                         method.invoke(o,rs.getInt(lable));
+                    }
+                    else if(rs.getObject(lable) == null){
+                        //System.out.println("is null"); do nothing
                     }
                     else{
                         method.invoke(o,rs.getObject(lable));

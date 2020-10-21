@@ -3,11 +3,11 @@ package com.qiu.firechill.session.impl;
 import com.qiu.firechill.action.CudSqlAction;
 import com.qiu.firechill.action.DefaultSelfSqlAction;
 import com.qiu.firechill.action.ReadSqlAction;
-import com.qiu.firechill.action.SqlAction;
+import com.qiu.firechill.action.AllSqlAction;
 import com.qiu.firechill.action.impl.CudSqlActionImpl;
 import com.qiu.firechill.action.impl.DefaultSqlActionImpl;
 import com.qiu.firechill.action.impl.ReadSqlActionImpl;
-import com.qiu.firechill.action.impl.SimpleSqlActionImpl;
+import com.qiu.firechill.action.impl.SimpleAllSqlActionImpl;
 import com.qiu.firechill.devtest.config.MyDataSourceConfig;
 import com.qiu.firechill.session.DbConnectFactory;
 
@@ -35,9 +35,9 @@ public class CommonDbConnectFactory implements DbConnectFactory {
     }
 
     @Override
-    public SqlAction getAction(Class<?> clazz) throws Exception {
+    public AllSqlAction getAction(Class<?> clazz) throws Exception {
 
-        return new SimpleSqlActionImpl(connect,clazz);
+        return new SimpleAllSqlActionImpl(connect,clazz);
     }
 
     @Override

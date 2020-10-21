@@ -13,16 +13,16 @@ import com.qiu.firechill.ann.TableName;
 public class Role {
 
     @ColumnName("id")
-    private int id;
+    private Integer id;
 
     @ColumnName("rname")
     private String rname;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
