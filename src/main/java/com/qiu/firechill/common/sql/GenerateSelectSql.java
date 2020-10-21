@@ -18,7 +18,7 @@ public interface GenerateSelectSql<T> {
     String getReleSql(String col);
 
     /**
-     * 全查
+     * 全查 联表专用
      * @return
      */
     String getReleSql();

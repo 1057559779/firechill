@@ -19,7 +19,10 @@ import java.sql.*;
  * @Des 普通方式，用java配置的方式
  */
 public class CommonDbConnectFactory implements DbConnectFactory {
-    //一次加载多次使用
+
+    /**
+     * 用单例模式让Connection不多次创建
+     */
     private static Connection connect;
 
     static {

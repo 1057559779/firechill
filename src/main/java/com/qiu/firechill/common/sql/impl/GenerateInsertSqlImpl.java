@@ -59,8 +59,9 @@ public class GenerateInsertSqlImpl implements GenerateInsertSql {
                 }
             }
         }
+        int initCapacity =4;
         //定义map，将两个需要返回的值返回出去
-        Map<String, Object> bigReturn = new HashMap<>();
+        Map<String, Object> bigReturn = new HashMap<>(initCapacity);
         //sql
         bigReturn.put("sql",sql.toString());
         //占位符需要添加的值
@@ -68,7 +69,7 @@ public class GenerateInsertSqlImpl implements GenerateInsertSql {
         return bigReturn;
 
     }
-    //从c1中找出c2的注解,并用分隔符拼接每个c2注解的值 (练习)
+
     private String createAnnStr(Class c1,String character1){
         StringBuilder str=new StringBuilder();
         ColumnName columnName=null;

@@ -87,7 +87,6 @@ public class ReadSqlActionImpl<T> implements ReadSqlAction<T> {
     }
 
 
-    // 字段名：table+col
     @Override
     public List selectAll() throws Exception {
 

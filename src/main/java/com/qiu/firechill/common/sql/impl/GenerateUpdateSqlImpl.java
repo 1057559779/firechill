@@ -45,8 +45,8 @@ public class GenerateUpdateSqlImpl implements GenerateUpdateSql {
         //去掉最后一个逗号
         StringBuilder newsql = new StringBuilder(sql.substring(0, sql.length() - 1));
         newsql.append(" where "+col+" ="+val);
-
-        Map<String, Object> returnObj = new HashMap<>();
+        int initialCapacity = 4;
+        Map<String, Object> returnObj = new HashMap<>(initialCapacity);
         returnObj.put("sql",newsql.toString());
         returnObj.put("vals",vals);
         return returnObj;

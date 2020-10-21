@@ -20,7 +20,8 @@ public class MyDataSourceConfig implements DataSourceInfoConfig {
     @Override
     public ConnectBean config() throws Exception {
         if(config == null){
-            Map<String ,Object> map = new HashMap<>();
+            int initialCapacity=8;
+            Map<String ,Object> map = new HashMap<>(initialCapacity);
             map.put("url","jdbc:mysql://120.55.88.202:3306/firechildren?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true");
             map.put("username","root");
             map.put("password","123456");

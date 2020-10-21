@@ -24,11 +24,19 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
     private Class<?> clazz;
 
     private Field[] fields;
-    //方法名String
+    /**
+     * 方法名
+     */
     String[] methodname;
-    //属性名
+
+    /**
+     * 属性名
+     */
     String[] names;
-    //所有属性的数据类型
+
+    /**
+     * 属性的数据类型
+     */
     Class[] classes;
 
     private GenerateSelectSqlImpl(){
@@ -83,7 +91,6 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         return newsql.toString();
     }
 
-    //无参，联表专用
     @Override
     public String getReleSql() {
 
@@ -123,7 +130,14 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         return newsql.toString();
     }
 
-    //生成返回值 单参数的 调用方可以判断是否需要get[0]
+    /**
+     * 生成返回值 单参数的 调用方可以判断是否需要get[0]
+     * @param connect
+     * @param sql
+     * @param param
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<T> getReleReturn(Connection connect,String sql,Object param) throws Exception {
 
@@ -174,7 +188,15 @@ public class GenerateSelectSqlImpl<T> implements GenerateSelectSql {
         return list;
     }
 
-    //生成放回置，多参数的 自定义sql动态代理类专用
+    /**
+     * 生成返回值，多参数的 自定义sql动态代理类专用
+     * @param connect
+     * @param sql
+     * @param params
+     * @param args
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<T> getRetrun(Connection connect,StringBuilder sql,String[] params,Object[] args) throws Exception {
 

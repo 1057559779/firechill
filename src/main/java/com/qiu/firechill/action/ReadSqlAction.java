@@ -9,15 +9,36 @@ import java.util.List;
  */
 public interface ReadSqlAction<T> {
 
-    //通过id查询  数据库字段的主键可能是int也可能是varchar
+    /**
+     * 根据id查询 因为id的值可能是int 也可能是uuid
+     * @param val
+     * @return
+     * @throws Exception
+     */
     T selectById(Object val) throws Exception;
 
-    //通过某个字段查询
+    /**
+     * 指定一个字段查询一条数据
+     * @param col
+     * @param val
+     * @return
+     * @throws Exception
+     */
     T selectOneByCol(String col,Object val) throws Exception;
 
-    //通过某个字段查询   有第三个参数则走list
+    /**
+     * 指定一个字段查询多条数据
+     * @param col
+     * @param val
+     * @return
+     * @throws Exception
+     */
     List<T> selectListByCol(String col, Object val) throws Exception;
 
-    //查询所有
+    /**
+     * 查询所有
+     * @return
+     * @throws Exception
+     */
     List<T> selectAll() throws Exception;
 }
