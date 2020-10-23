@@ -1,16 +1,10 @@
 package com.qiu.firechill.devtest.main;
 
 import com.qiu.firechill.action.AllSqlAction;
-import com.qiu.firechill.action.ReadSqlAction;
 import com.qiu.firechill.devtest.config.MyDataSourceConfig;
-import com.qiu.firechill.devtest.pojo.QiuUser;
 import com.qiu.firechill.devtest.pojo.User;
-
 import com.qiu.firechill.session.DbConnectFactory;
 import com.qiu.firechill.session.DbConnectFactoryBuilder;
-import com.qiu.firechill.session.impl.CommonDbConnectFactory;
-
-import javax.sql.DataSource;
 import java.util.List;
 
 
