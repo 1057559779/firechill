@@ -1,7 +1,6 @@
 package com.qiu.firechill.devtest.pojo;
 
 import com.qiu.firechill.ann.ColumnName;
-import com.qiu.firechill.ann.OneToOne;
 import com.qiu.firechill.ann.TableName;
 
 /**

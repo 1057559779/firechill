@@ -1,7 +1,6 @@
 package com.qiu.firechill.devtest.main;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-import com.qiu.firechill.session.impl.CommonDBConnectFactory;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -15,9 +14,10 @@ import java.util.Map;
  * @create 2020/9/25 11:18
  * @Des 拥有数据库连接池的jdbc
  */
-public class HasDBCMain {
+public class HasDbMain {
     public static void main(String[] args) throws Exception {
-        Map<String ,Object> map = new HashMap<String, Object>();
+        int initialCapacity=8;
+        Map<String ,Object> map = new HashMap<String, Object>(initialCapacity);
         map.put("url","jdbc:mysql://120.55.88.202:3306/firechildren?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true");
         map.put("username","root");
         map.put("password","123456");

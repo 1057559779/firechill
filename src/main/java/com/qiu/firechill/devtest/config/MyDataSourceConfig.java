@@ -15,11 +15,9 @@ import java.util.Map;
  */
 public class MyDataSourceConfig implements DataSourceInfoConfig {
 
-    private static ConnectBean config;
-
     @Override
     public ConnectBean config() throws Exception {
-        if(config == null){
+
             int initialCapacity=8;
             Map<String ,Object> map = new HashMap<>(initialCapacity);
             map.put("url","jdbc:mysql://120.55.88.202:3306/firechildren?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true");
@@ -35,11 +33,7 @@ public class MyDataSourceConfig implements DataSourceInfoConfig {
             //装入数据库连接池
             connectBean.setDataSource(ds);
 
-            config=connectBean;
-            return config;
-        }else {
-            return config;
-        }
+        return connectBean;
 
     }
 

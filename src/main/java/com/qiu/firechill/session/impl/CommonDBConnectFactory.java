@@ -23,15 +23,10 @@ public class CommonDbConnectFactory implements DbConnectFactory {
     /**
      * 用单例模式让Connection不多次创建
      */
-    private static Connection connect;
+    private  Connection connect;
 
-    static {
-        try {
-            //得到配置信息
-            connect = new MyDataSourceConfig().config().getDataSource().getConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public CommonDbConnectFactory(Connection connect) {
+        this.connect = connect;
     }
 
     @Override

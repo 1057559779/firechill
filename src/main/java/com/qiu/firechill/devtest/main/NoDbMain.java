@@ -7,7 +7,7 @@ import java.sql.*;
  * @create 2020/9/25 9:44
  * @Des 没有数据库连接池的jdbc
  */
-public class NoDBCMain {
+public class NoDbMain {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         String url="jdbc:mysql://120.55.88.202:3306/firechildren?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true";
