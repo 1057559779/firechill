@@ -20,7 +20,7 @@ import java.util.List;
 public class AfterDBCMain {
 
     public static void main(String[] args) throws Exception {
-        //测试 ～～ss
+
         SqlAction<QiuUser> action = new CommonDBConnectFactory().getAction(QiuUser.class);
         QiuUser a=new QiuUser();
         a.setUname("wccc-csa");
