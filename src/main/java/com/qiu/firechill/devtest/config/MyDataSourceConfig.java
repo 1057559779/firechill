@@ -1,5 +1,6 @@
 package com.qiu.firechill.devtest.config;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.qiu.firechill.session.ConnectBean;
 import com.qiu.firechill.session.DataSourceInfoConfig;
@@ -16,22 +17,17 @@ import java.util.Map;
 public class MyDataSourceConfig implements DataSourceInfoConfig {
 
     @Override
-    public ConnectBean config() throws Exception {
+    public ConnectBean config(){
 
-            int initialCapacity=8;
-            Map<String ,Object> map = new HashMap<>(initialCapacity);
-            map.put("url","jdbc:mysql://120.55.88.202:3306/firechildren?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true");
-            map.put("username","root");
-            map.put("password","123456");
-            map.put("initialSize","5");
-            map.put("maxActive","10");
-            map.put("maxWait","3000");
-            map.put("driverClassName","com.mysql.jdbc.Driver");
-            DataSource ds = DruidDataSourceFactory.createDataSource(map);
+            DruidDataSource dataSource = new DruidDataSource();
+            dataSource.setUrl("jdbc:mysql://120.55.88.202:3306/firechildren?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true");
+            dataSource.setUsername("root");
+            dataSource.setPassword("123456");
+            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
             ConnectBean connectBean = new ConnectBean();
             //装入数据库连接池
-            connectBean.setDataSource(ds);
+            connectBean.setDataSource(dataSource);
 
         return connectBean;
 

@@ -49,7 +49,6 @@ public class SimpleSqlActionImpl<T> implements SqlAction<T> {
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
         //生成sql
         String sql = generate.getReleSql("id");
-        System.out.println(sql);
         //得到返回值
         List<T> list = generate.getReleReturn(connect, sql,val);
         T t = list.get(0);

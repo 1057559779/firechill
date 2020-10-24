@@ -12,7 +12,6 @@ public interface DataSourceInfoConfig {
     /**
      * 用于返回一个ConnectBean ConnectBean当中有DataSource
      * @return
-     * @throws Exception
      */
-    ConnectBean config() throws Exception;
+    ConnectBean config();
 }
