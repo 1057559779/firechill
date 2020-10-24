@@ -1,7 +1,6 @@
 package com.qiu.firechill.action.impl;
 
-import com.qiu.firechill.action.AllSqlAction;
-import com.qiu.firechill.action.SqlActionProxy;
+import com.qiu.firechill.action.SqlAction;
 import com.qiu.firechill.common.sql.GenerateDeleteSql;
 import com.qiu.firechill.common.sql.GenerateInsertSql;
 import com.qiu.firechill.common.sql.GenerateSelectSql;
@@ -23,7 +22,7 @@ import java.util.Map;
  * @create 2020/9/25 16:12
  * @Des 简单的sql操作类 全写了
  */
-public class SimpleAllSqlActionImpl<T> implements AllSqlAction<T> {
+public class SimpleSqlActionImpl<T> implements SqlAction<T> {
 
     private Connection connect;
 
@@ -31,7 +30,7 @@ public class SimpleAllSqlActionImpl<T> implements AllSqlAction<T> {
 
     private Field[] fields ;
 
-    public SimpleAllSqlActionImpl(Connection connect, Class<?> clazz) {
+    public SimpleSqlActionImpl(Connection connect, Class<?> clazz) {
         this.connect=connect;
         this.clazz=clazz;
     }
@@ -50,6 +49,7 @@ public class SimpleAllSqlActionImpl<T> implements AllSqlAction<T> {
         GenerateSelectSql<T> generate = new GenerateSelectSqlImpl<T>(clazz, fields,methodname,names,classes);
         //生成sql
         String sql = generate.getReleSql("id");
+        System.out.println(sql);
         //得到返回值
         List<T> list = generate.getReleReturn(connect, sql,val);
         T t = list.get(0);
@@ -177,13 +177,6 @@ public class SimpleAllSqlActionImpl<T> implements AllSqlAction<T> {
         return i;
     }
 
-
-    @Override
-    public Object getInterFace(Class clazz){
-        SqlActionProxy sqlActionProxy = new SqlActionProxy(clazz);
-        Object proxy = sqlActionProxy.getProxy();
-        return proxy;
-    }
 
     public int insertDo(Map<String, Object> returnMap){
         //sql 返回的sql    vals 范围的一个对象的属性值

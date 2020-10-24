@@ -1,6 +1,6 @@
 package com.qiu.firechill.devtest.main;
 
-import com.qiu.firechill.action.AllSqlAction;
+import com.qiu.firechill.action.SqlAction;
 import com.qiu.firechill.devtest.config.MyDataSourceConfig;
 import com.qiu.firechill.devtest.pojo.User;
 import com.qiu.firechill.session.DbConnectFactory;
@@ -17,8 +17,8 @@ public class AfterDbMain {
     public static void main(String[] args) throws Exception {
         //测试
         DbConnectFactory build = DbConnectFactoryBuilder.build(new MyDataSourceConfig());
-        AllSqlAction<User> action = build.getAction(User.class);
-        List<User> users = action.selectAll();
+        SqlAction<User> action = build.getAction(User.class);
+        User users = action.selectById("1");
         System.out.println(users);
     }
 }

@@ -6,10 +6,43 @@ import java.util.List;
 
 /**
  * @Author qiu
- * @create 2020/10/6 12:21
- * @Des 操作sql处理类
+ * @create 2020/9/25 16:09
+ * @Des sql处理类 总和
  */
-public interface CudSqlAction<T> {
+public interface SqlAction<T> {
+
+    /**
+     * 根据id查询 因为id的值可能是int 也可能是uuid
+     * @param val
+     * @return
+     * @throws Exception
+     */
+    T selectById(Object val) throws Exception;
+
+    /**
+     * 指定一个字段查询一条数据
+     * @param col
+     * @param val
+     * @return
+     * @throws Exception
+     */
+    T selectOneByCol(String col,Object val) throws Exception;
+
+    /**
+     * 指定一个字段查询多条数据
+     * @param col
+     * @param val
+     * @return
+     * @throws Exception
+     */
+    List<T> selectListByCol(String col, Object val) throws Exception;
+
+    /**
+     * 查询所有
+     * @return
+     * @throws Exception
+     */
+    List<T> selectAll() throws Exception;
 
     /**
      * 根据id删除 所有字段中必须有一个字段是id
