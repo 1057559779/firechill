@@ -15,6 +15,7 @@ import java.util.List;
 public class AfterDbMain {
 
     public static void main(String[] args) throws Exception {
+        //测试
         DbConnectFactory build = DbConnectFactoryBuilder.build(new MyDataSourceConfig());
         AllSqlAction<User> action = build.getAction(User.class);
         List<User> users = action.selectAll();
